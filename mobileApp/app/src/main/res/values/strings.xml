@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NPO-Agregat</string>
+
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+
+    <string name="textview_status_idle">Idle</string>
+    <string name="textview_status_capturing">Capturing...</string>
+
+    <string name="textview_status_user">username</string>
 </resources>
