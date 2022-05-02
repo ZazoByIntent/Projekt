@@ -55,7 +55,7 @@ module.exports = {
 			pospesek : req.body.pospesek,
 			rotacija : req.body.rotacija,
 			koordinate : req.body.koordinate,
-            datum : req.body.datum
+            datum : new Date()
         });
 
         obdelani_podatki.save(function (err, obdelani_podatki) {

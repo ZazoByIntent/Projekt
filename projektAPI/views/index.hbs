@@ -1,2 +1,18 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<form action="/rezultat" method="post">
+    <h1>Objava testnih podatkov</h1>
+
+    <input type="text" name="stanje_ceste" placeholder="stanje_ceste" required=""> <br>
+    <input type="text" name="koordinate" placeholder="koordinate" required=""> <br>
+    <input type="submit" value="Post">
+</form>
+    <hr>
+{{#each rezultati}}
+<div>
+    <h2>Datum: {{datum}}</h2>
+    <span>Stanje: {{stanje_ceste}}, na mestu: {{koordinate}}</span>
+    <hr>
+</div>
+
+
+{{/each}}
+

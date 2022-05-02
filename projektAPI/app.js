@@ -6,11 +6,17 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var neobdelani_podatkiRouter = require('.routes/neobdelanipodatkiRoutes');
-var obdelani_podatkiRouter = require('.routes/obdelanipodatkiRoutes');
-var rezultatRouter = require('.routes/rezultatRoutes');
+var neobdelani_podatkiRouter = require('./routes/neobdelani_podatkiRoutes');
+var obdelani_podatkiRouter = require('./routes/obdelani_podatkiRoutes');
+var rezultatRouter = require('./routes/rezultatRoutes');
 
 var app = express();
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection failed'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

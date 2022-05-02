@@ -54,7 +54,7 @@ module.exports = {
         var rezultat = new RezultatModel({
 			stanje_ceste : req.body.stanje_ceste,
 			koordinate : req.body.koordinate,
-            datum : req.body.datum
+            datum : new Date()
         });
 
         rezultat.save(function (err, rezultat) {

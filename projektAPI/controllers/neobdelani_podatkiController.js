@@ -59,7 +59,7 @@ module.exports = {
 			y_pospesek : req.body.y_pospesek,
 			z_pospesek : req.body.z_pospesek,
 			koordinate : req.body.koordinate,
-            datum : req.body.datum
+            datum : new Date()
         });
 
         neobdelani_podatki.save(function (err, neobdelani_podatki) {
