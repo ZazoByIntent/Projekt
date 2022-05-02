@@ -58,7 +58,8 @@ module.exports = {
 			x_pospesek : req.body.x_pospesek,
 			y_pospesek : req.body.y_pospesek,
 			z_pospesek : req.body.z_pospesek,
-			koordinate : req.body.koordinate
+			koordinate : req.body.koordinate,
+            datum : req.body.datum
         });
 
         neobdelani_podatki.save(function (err, neobdelani_podatki) {
@@ -100,6 +101,7 @@ module.exports = {
 			neobdelani_podatki.y_pospesek = req.body.y_pospesek ? req.body.y_pospesek : neobdelani_podatki.y_pospesek;
 			neobdelani_podatki.z_pospesek = req.body.z_pospesek ? req.body.z_pospesek : neobdelani_podatki.z_pospesek;
 			neobdelani_podatki.koordinate = req.body.koordinate ? req.body.koordinate : neobdelani_podatki.koordinate;
+			neobdelani_podatki.datum = req.body.datum ? req.body.datum : neobdelani_podatki.datum;
 			
             neobdelani_podatki.save(function (err, neobdelani_podatki) {
                 if (err) {

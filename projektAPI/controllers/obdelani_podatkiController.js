@@ -54,7 +54,8 @@ module.exports = {
         var obdelani_podatki = new Obdelani_podatkiModel({
 			pospesek : req.body.pospesek,
 			rotacija : req.body.rotacija,
-			koordinate : req.body.koordinate
+			koordinate : req.body.koordinate,
+            datum : req.body.datum
         });
 
         obdelani_podatki.save(function (err, obdelani_podatki) {
@@ -92,6 +93,7 @@ module.exports = {
             obdelani_podatki.pospesek = req.body.pospesek ? req.body.pospesek : obdelani_podatki.pospesek;
 			obdelani_podatki.rotacija = req.body.rotacija ? req.body.rotacija : obdelani_podatki.rotacija;
 			obdelani_podatki.koordinate = req.body.koordinate ? req.body.koordinate : obdelani_podatki.koordinate;
+			obdelani_podatki.datum = req.body.datum ? req.body.datum : obdelani_podatki.datum;
 			
             obdelani_podatki.save(function (err, obdelani_podatki) {
                 if (err) {
