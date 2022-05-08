@@ -18,9 +18,21 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.npo_agregat.databinding.ActivityMainBinding
 import com.google.android.gms.location.*
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+import okhttp3.*
+
+import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -32,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private val NS2S = 1.0f / 1000000000.0f
     private val deltaRotationVector = FloatArray(4) { 0f }
     private var timestamp: Float = 0f
+    private val client = OkHttpClient()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         app = application as MyApplication
+
+        val policy = ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
         // Dovoljenja
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(this, Manifest.permission.HIGH_SAMPLING_RATE_SENSORS) != PackageManager.PERMISSION_GRANTED)) {
@@ -57,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 // Zacni zajemanje podatkov
                 app.isCapturing = true
                 startLocationUpdates()
+                sendPost()
                 setUpSensorStuff()
             }
         }
@@ -67,6 +84,57 @@ class MainActivity : AppCompatActivity() {
                 app.isCapturing = false
             }
         }
+    }
+
+    private fun sendPost() {
+        val requestBody = FormBody.Builder()
+            .add("stanje_ceste", "123")
+            .add("koordinate", "321, 123")
+            .build()
+
+        val request = Request.Builder()
+            .url("http://192.168.178.55:3000/rezultat")
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            val responseHeaders: Headers = response.headers
+            for (i in 0 until responseHeaders.size) {
+                println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+            }
+            System.out.println(response.body!!.string())
+        }
+
+        /*
+        var reqParam = URLEncoder.encode("?stanje_ceste=10&koordinate=32123,32123", "UTF-8")
+        val mURL = URL("http://192.168.178.55:3000/rezultat")
+
+        with(mURL.openConnection() as HttpURLConnection) {
+            setRequestProperty("Content-Type", "application/json; charset=utf-8")
+            requestMethod = "POST"
+            doOutput = true
+
+            val wr = OutputStreamWriter(outputStream)
+            wr.write(reqParam)
+            wr.flush()
+
+            println("URL : $url")
+            println("Response Code : $responseCode")
+            println("Response message : $responseMessage")*/
+            /*
+            BufferedReader(InputStreamReader(inputStream)).use {
+                val response = StringBuffer()
+
+                var inputLine = it.readLine()
+                while (inputLine != null) {
+                    response.append(inputLine)
+                    inputLine = it.readLine()
+                }
+                println("Response : $response")
+            }
+            disconnect()*/
+
     }
 
     private fun setUpSensorStuff() {
@@ -111,7 +179,7 @@ class MainActivity : AppCompatActivity() {
             linear_acceleration[0] = event.values[0] - gravity[0]
             linear_acceleration[1] = event.values[1] - gravity[1]
             linear_acceleration[2] = event.values[2] - gravity[2]
-            Log.e("X Speed: ", linear_acceleration[0].toString())
+            //Log.e("X Speed: ", linear_acceleration[0].toString())
             //Log.e("Acceleration 1: ", linear_acceleration[1].toString())
             //Log.e("Acceleration 2: ", linear_acceleration[2].toString())
         }
@@ -158,12 +226,12 @@ class MainActivity : AppCompatActivity() {
             }
             timestamp = event?.timestamp?.toFloat() ?: 0f
             val deltaRotationMatrix = FloatArray(9) { 0f }
-            SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, deltaRotationVector);
+            SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, deltaRotationVector)
             // User code should concatenate the delta rotation we computed with the current rotation
             // in order to get the updated rotation.
             // rotationCurrent = rotationCurrent * deltaRotationMatrix;
 
-            Log.e("Rotation Vector 1: ", deltaRotationVector[0].toString())
+            //Log.e("Rotation Vector 1: ", deltaRotationVector[0].toString())
         }
 
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
