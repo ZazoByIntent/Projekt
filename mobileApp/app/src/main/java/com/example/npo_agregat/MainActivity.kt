@@ -10,8 +10,10 @@ import android.hardware.SensorManager
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
 import android.util.Half.EPSILON
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.npo_agregat.databinding.ActivityMainBinding
@@ -38,20 +40,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         app = application as MyApplication
 
+        // Dovoljenja
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(this, Manifest.permission.HIGH_SAMPLING_RATE_SENSORS) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.HIGH_SAMPLING_RATE_SENSORS), 2)
         }
 
+        // Google location provider
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         createLocationRequest()
 
 
-
+        // OnClick
         binding.btnStart.setOnClickListener {
             if(binding.tvStatus.text == getString(R.string.textview_status_idle)){
                 binding.tvStatus.text = getString(R.string.textview_status_capturing)
                 // Zacni zajemanje podatkov
-                startLocationUpdates() //Začne slediti lokacija
+                app.isCapturing = true
+                startLocationUpdates()
                 setUpSensorStuff()
             }
         }
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             if(binding.tvStatus.text == getString(R.string.textview_status_capturing)){
                 binding.tvStatus.text = getString(R.string.textview_status_idle)
                 // Prenehaj zajemanje podatkov
-                stopLocationUpdates();
+                app.isCapturing = false
             }
         }
     }
@@ -84,9 +89,9 @@ class MainActivity : AppCompatActivity() {
                 SensorManager.SENSOR_DELAY_UI
             )
         }
-
     }
 
+    // Pospeškometer
     private val mAcceleratorSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(event: SensorEvent) {
             // In this example, alpha is calculated as t / (t + dT),
@@ -116,6 +121,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Rotacija
     private val mGyroscopeSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(event: SensorEvent) {
             // This timestep's delta rotation to be multiplied by the current rotation
@@ -167,24 +173,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun createLocationRequest()
     {
-        Log.e("Location:", " Klicano");
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest()
-        locationRequest.interval = 50000
-        locationRequest.fastestInterval = 50000
-        locationRequest.smallestDisplacement = 170f // 170 m = 0.1 mile
+        locationRequest.interval = 5000
+        locationRequest.fastestInterval = 500
+        locationRequest.smallestDisplacement = 50f // 170 m = 0.1 mile
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY //set according to your app function
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
 
                 if (locationResult.locations.isNotEmpty()) {
-                    // get latest location
                     val location = locationResult.lastLocation
-
-                    Log.e("Location:", location.longitude.toString());
-                    // use your location object
-                    // get latitude , longitude and other info from this
+                    Toast.makeText(applicationContext, "Location updated " + location.longitude.toString() + " " + location.latitude.toString(), Toast.LENGTH_LONG).show()
                 }
 
 
@@ -192,7 +193,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //start location updates
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -202,13 +202,13 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Log.e("Location:", " Denied");
             return
         }
+
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
-            null /* Looper */
+            Looper.getMainLooper()
         )
     }
 
@@ -220,13 +220,15 @@ class MainActivity : AppCompatActivity() {
     // stop receiving location update when activity not visible/foreground
     override fun onPause() {
         super.onPause()
-        stopLocationUpdates()
+        if(app.isCapturing)
+            stopLocationUpdates()
     }
 
     // start receiving location update when activity  visible/foreground
     override fun onResume() {
         super.onResume()
-        startLocationUpdates()
+        if(app.isCapturing)
+            startLocationUpdates()
     }
 
 }
