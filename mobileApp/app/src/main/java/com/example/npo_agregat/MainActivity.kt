@@ -7,6 +7,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -73,7 +74,6 @@ class MainActivity : AppCompatActivity() {
                 // Zacni zajemanje podatkov
                 app.isCapturing = true
                 startLocationUpdates()
-                sendPost()
                 setUpSensorStuff()
             }
         }
@@ -86,14 +86,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendPost() {
+    private fun sendPost(location: Location) {
+        val locationString = location.latitude.toString() + ", " + location.longitude.toString()
+
+        // Spremeni na pravilen IP od API (za testiranje more bit local IP, na localhost/127.0.0.1 se ne poveze)
+        val actualUrl = "192.168.178.55:3000"
         val requestBody = FormBody.Builder()
-            .add("stanje_ceste", "123")
-            .add("koordinate", "321, 123")
+            .add("x_rotacija", "1")
+            .add("y_rotacija", "2")
+            .add("z_rotacija", "3")
+            .add("x_pospesek", "4")
+            .add("y_pospesek", "5")
+            .add("z_pospesek", "6")
+            .add("koordinate", locationString)
             .build()
 
         val request = Request.Builder()
-            .url("http://192.168.178.55:3000/rezultat")
+            .url("http://$actualUrl/neobdelaniPodatki")
             .post(requestBody)
             .build()
 
@@ -253,10 +262,9 @@ class MainActivity : AppCompatActivity() {
 
                 if (locationResult.locations.isNotEmpty()) {
                     val location = locationResult.lastLocation
+                    sendPost(location)
                     Toast.makeText(applicationContext, "Location updated " + location.longitude.toString() + " " + location.latitude.toString(), Toast.LENGTH_LONG).show()
                 }
-
-
             }
         }
     }
