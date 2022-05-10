@@ -1,3 +1,4 @@
+const scrapper_podatkiModel = require('../models/scrapper_podatkiModel.js');
 var Scrapper_podatkiModel = require('../models/scrapper_podatkiModel.js');
 
 /**
@@ -121,6 +122,19 @@ module.exports = {
         var id = req.params.id;
 
         Scrapper_podatkiModel.findByIdAndRemove(id, function (err, scrapper_podatki) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when deleting the scrapper_podatki.',
+                    error: err
+                });
+            }
+
+            return res.status(204).json();
+        });
+    },
+
+    removeall: function (req, res) {
+        scrapper_podatkiModel.deleteMany({}, function(err, numberRemoved){
             if (err) {
                 return res.status(500).json({
                     message: 'Error when deleting the scrapper_podatki.',

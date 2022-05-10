@@ -13,8 +13,8 @@ var scrapperRouter = require('./routes/scrapper_podatkiRoutes');
 
 var app = express();
 var mongoose = require('mongoose');
-//var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-var mongoDB = 'mongodb://127.0.0.1/Scrapper';
+var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+//var mongoDB = 'mongodb://127.0.0.1/Scrapper';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;

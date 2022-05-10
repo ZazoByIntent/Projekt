@@ -2,6 +2,8 @@
   "requires": true,
   "lockfileVersion": 1,
   "dependencies": {
+    "axios": "^0.27.2",
+    "moment": "^2.29.3",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "xhr2": "^0.2.1"

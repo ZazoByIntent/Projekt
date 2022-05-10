@@ -26,5 +26,7 @@ router.put('/:id', scrapper_podatkiController.update);
  * DELETE
  */
 router.delete('/:id', scrapper_podatkiController.remove);
+router.delete('/', scrapper_podatkiController.removeall);
+
 
 module.exports = router;
