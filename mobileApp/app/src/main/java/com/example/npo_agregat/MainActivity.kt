@@ -33,9 +33,10 @@ import android.os.StrictMode.ThreadPolicy
 import okhttp3.*
 
 import java.io.IOException
+import java.net.Proxy
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     lateinit var app:MyApplication
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -46,8 +47,11 @@ class MainActivity : AppCompatActivity() {
     private val deltaRotationVector = FloatArray(4) { 0f }
     private var timestamp: Float = 0f
     private val client = OkHttpClient()
-
-
+    //private var mAccelerometer : Sensor ?= null
+    //private var mGyroscope : Sensor ?= null
+    private var tmp1: Float=0.0f
+    private var tmp2: Float=0.0f
+    private var tmp3: Float=0.0f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -61,7 +65,6 @@ class MainActivity : AppCompatActivity() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(this, Manifest.permission.HIGH_SAMPLING_RATE_SENSORS) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.HIGH_SAMPLING_RATE_SENSORS), 2)
         }
-
         // Google location provider
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         createLocationRequest()
@@ -75,12 +78,15 @@ class MainActivity : AppCompatActivity() {
                 app.isCapturing = true
                 startLocationUpdates()
                 setUpSensorStuff()
+                Log.e("x_pospesek",app.accelerationX.toString())
+
             }
         }
         binding.btnStop.setOnClickListener {
             if(binding.tvStatus.text == getString(R.string.textview_status_capturing)){
                 binding.tvStatus.text = getString(R.string.textview_status_idle)
                 // Prenehaj zajemanje podatkov
+                Log.e("x_pospesek",app.accelerationX.toString())
                 app.isCapturing = false
             }
         }
@@ -88,16 +94,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun sendPost(location: Location) {
         val locationString = location.latitude.toString() + ", " + location.longitude.toString()
-
         // Spremeni na pravilen IP od API (za testiranje more bit local IP, na localhost/127.0.0.1 se ne poveze)
-        val actualUrl = "192.168.178.55:3000"
+        //val actualUrl = "192.168.178.55:3000"
+        //val actualUrl = "192.168.1.27:3000"
+        val actualUrl = "localhost:3000"
         val requestBody = FormBody.Builder()
-            .add("x_rotacija", "1")
-            .add("y_rotacija", "2")
-            .add("z_rotacija", "3")
-            .add("x_pospesek", "4")
-            .add("y_pospesek", "5")
-            .add("z_pospesek", "6")
+            .add("x_rotacija", app.gyroscopeX.toString())
+            .add("y_rotacija", app.gyroscopeY.toString())
+            .add("z_rotacija", app.gyroscopeZ.toString())
+            .add("x_pospesek", app.accelerationX.toString())
+            .add("y_pospesek", app.accelerationY.toString())
+            .add("z_pospesek", app.accelerationZ.toString())
             .add("koordinate", locationString)
             .build()
 
@@ -110,6 +117,7 @@ class MainActivity : AppCompatActivity() {
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val responseHeaders: Headers = response.headers
             for (i in 0 until responseHeaders.size) {
+                Log.e("x_pospesek",app.accelerationX.toString())
                 println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
             }
             System.out.println(response.body!!.string())
@@ -191,12 +199,17 @@ class MainActivity : AppCompatActivity() {
             //Log.e("X Speed: ", linear_acceleration[0].toString())
             //Log.e("Acceleration 1: ", linear_acceleration[1].toString())
             //Log.e("Acceleration 2: ", linear_acceleration[2].toString())
+            app.accelerationX=linear_acceleration[0]
+            app.accelerationY=linear_acceleration[1]
+            app.accelerationZ=linear_acceleration[2]
+
         }
 
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
 
         }
     }
+
 
     // Rotacija
     private val mGyroscopeSensorListener: SensorEventListener = object : SensorEventListener {
@@ -240,9 +253,14 @@ class MainActivity : AppCompatActivity() {
             // in order to get the updated rotation.
             // rotationCurrent = rotationCurrent * deltaRotationMatrix;
 
-            //Log.e("Rotation Vector 1: ", deltaRotationVector[0].toString())
-        }
+            /*Log.e("Rotation------x:", deltaRotationVector[0].toString())//,deltaRotationVector[1].toString(),deltaRotationVector[2].toString())
+            Log.e("Rotationy:", deltaRotationVector[1].toString())
+            Log.e("Rotationz:", deltaRotationVector[2].toString())*/
+            app.gyroscopeX = deltaRotationVector[0]
+            app.gyroscopeY = deltaRotationVector[1]
+            app.gyroscopeZ = deltaRotationVector[2]
 
+        }
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
 
         }
@@ -250,6 +268,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createLocationRequest()
     {
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest()
         locationRequest.interval = 5000
@@ -259,7 +278,6 @@ class MainActivity : AppCompatActivity() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
-
                 if (locationResult.locations.isNotEmpty()) {
                     val location = locationResult.lastLocation
                     sendPost(location)
