@@ -9,10 +9,12 @@ var usersRouter = require('./routes/users');
 var neobdelani_podatkiRouter = require('./routes/neobdelani_podatkiRoutes');
 var obdelani_podatkiRouter = require('./routes/obdelani_podatkiRoutes');
 var rezultatRouter = require('./routes/rezultatRoutes');
+var scrapperRouter = require('./routes/scrapper_podatkiRoutes');
 
 var app = express();
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+//var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+var mongoDB = 'mongodb://127.0.0.1/Scrapper';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -33,6 +35,7 @@ app.use('/users', usersRouter);
 app.use('/neobdelaniPodatki', neobdelani_podatkiRouter);
 app.use('/obdelaniPodatki', obdelani_podatkiRouter);
 app.use('/rezultat', rezultatRouter);
+app.use('/scrapper', scrapperRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,7 @@
 const rp = require('request-promise');
 const url = 'https://opendata.si/promet/counters/';
+var XMLHttpRequest = require('xhr2');
+
 
 rp(url)
   .then(function(body){
@@ -22,9 +24,21 @@ rp(url)
         console.log("Gostota: " + gostotaPrometa);
         console.log("--------------------------------")
      // }
-      
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:3000/scrapper", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            "lokacija": lokacija,
+            "latitude" : latitude,
+            "longitude" : longitude,
+            "cas" : cas,
+            'povprecnaHitrost' : averageSpeed,
+            'steviloVozil' : numberOfVehicles,
+            'gostota' : gostotaPrometa
+        }));
       // Poslji ime lokacije, x in y koordinate
     }
+
   })
   .catch(function(err){
     console.log(err);
