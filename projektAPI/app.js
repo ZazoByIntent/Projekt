@@ -12,8 +12,24 @@ var rezultatRouter = require('./routes/rezultatRoutes');
 var scrapperRouter = require('./routes/scrapper_podatkiRoutes');
 
 var app = express();
+
+var cors = require('cors');
+var allowedOrigins = ['http://localhost:3000', 'http://localhost:3001'];
+app.use(cors({
+  credentials: true,
+  origin: function(origin, callback){
+    // Allow requests with no origin (mobile apps, curl)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin)===-1){
+      var msg = "The CORS policy does not allow access from the specified Origin.";
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
+
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/?retryWrites=true&w=majority'
 //var mongoDB = 'mongodb://127.0.0.1/Scrapper';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
