@@ -15,3 +15,26 @@ a {
   box-sizing: border-box;
 }
 
+.map {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.chart {
+  height: 25%;
+  width: 30%;
+  position: absolute;
+  z-index: 2;
+  bottom: 15%;
+  left: 2%;
+  opacity: 0.96;
+}
+
+.my-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
