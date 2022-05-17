@@ -97,7 +97,9 @@ class MainActivity : AppCompatActivity(){
         // Spremeni na pravilen IP od API (za testiranje more bit local IP, na localhost/127.0.0.1 se ne poveze)
         //val actualUrl = "192.168.178.55:3000"
         //val actualUrl = "192.168.1.27:3000"
-        val actualUrl = "localhost:3000"
+        //val actualUrl = "localhost:3000"
+        val actualUrl = "192.168.178.55:3001"
+
         val requestBody = FormBody.Builder()
             .add("x_rotacija", app.gyroscopeX.toString())
             .add("y_rotacija", app.gyroscopeY.toString())
@@ -114,13 +116,15 @@ class MainActivity : AppCompatActivity(){
             .build()
 
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            val responseHeaders: Headers = response.headers
-            for (i in 0 until responseHeaders.size) {
-                Log.e("x_pospesek",app.accelerationX.toString())
-                println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+            if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
+            else {
+                val responseHeaders: Headers = response.headers
+                for (i in 0 until responseHeaders.size) {
+                    // Log.e("x_pospesek",app.accelerationX.toString())
+                    println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+                }
+                System.out.println(response.body!!.string())
             }
-            System.out.println(response.body!!.string())
         }
 
         /*
@@ -273,7 +277,7 @@ class MainActivity : AppCompatActivity(){
         locationRequest = LocationRequest()
         locationRequest.interval = 5000
         locationRequest.fastestInterval = 500
-        locationRequest.smallestDisplacement = 50f // 170 m = 0.1 mile
+        locationRequest.smallestDisplacement = 5f // 170 m = 0.1 mile
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY //set according to your app function
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
