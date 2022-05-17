@@ -1,5 +1,6 @@
 var Neobdelani_podatkiModel = require('../models/neobdelani_podatkiModel.js');
-
+var obdelavaPodatkov = require('../algoritmi/obdelavaPodatkov.js');
+const { obdelava } = require('../algoritmi/obdelavaPodatkov.js');
 /**
  * neobdelani_podatkiController.js
  *
@@ -69,8 +70,8 @@ module.exports = {
                     error: err
                 });
             }
-
-            return res.status(201).json(neobdelani_podatki);
+    
+            obdelavaPodatkov.obdelava(req, res);
         });
     },
 
