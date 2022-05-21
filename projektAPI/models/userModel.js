@@ -22,7 +22,7 @@ userSchema.pre('save', function(next){
 userSchema.statics.authenticate = function(username, password, callback){
 	User.findOne({username: username})
 	.exec(function(err, user){
-		
+
 		if(err){
 			return callback(err);
 		} else if(!user) {

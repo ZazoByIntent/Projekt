@@ -76,7 +76,6 @@ module.exports = {
                 err.status = 401;
                 return next(err);
             }
-            req.session.userId = user._id;
             //res.redirect('/users/profile');
             return res.json(user);
         });

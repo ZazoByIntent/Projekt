@@ -10,4 +10,6 @@ class MyApplication : Application() {
     var accelerationX: Double = 0.0
     var accelerationY: Double = 0.0
     var accelerationZ: Double = 0.0
+    var loggedIn : Boolean = false
+    var user : String = "username"
 }

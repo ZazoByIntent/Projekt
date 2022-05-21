@@ -30,6 +30,10 @@ import java.net.URL
 import java.net.URLEncoder
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
+import android.widget.FrameLayout
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import okhttp3.*
 
 import java.io.IOException
@@ -43,6 +47,9 @@ class MainActivity : AppCompatActivity(){
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private lateinit var sensorManager: SensorManager
+    private var loginFragment = LoginFragment()
+    private var registerFragment = RegisterFragment()
+    var fragmentManager = supportFragmentManager
     private val NS2S = 1.0f / 1000000000.0f
     private val deltaRotationVector = FloatArray(4) { 0f }
     private var timestamp: Float = 0f
@@ -56,6 +63,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        openLoginFragment()
         app = application as MyApplication
 
         val policy = ThreadPolicy.Builder().permitAll().build()
@@ -79,7 +87,6 @@ class MainActivity : AppCompatActivity(){
                 startLocationUpdates()
                 setUpSensorStuff()
                 Log.e("x_pospesek",app.accelerationX.toString())
-
             }
         }
         binding.btnStop.setOnClickListener {
@@ -90,6 +97,33 @@ class MainActivity : AppCompatActivity(){
                 app.isCapturing = false
             }
         }
+    }
+
+    fun closeLoginFragment(){
+        if(app.loggedIn)
+        {
+            fragmentManager.beginTransaction().remove(loginFragment).commit()
+            val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
+            loginFrameLayout.elevation = 0.0f
+            binding.tvUser.text = app.user
+        }
+        else
+        {
+            Toast.makeText(applicationContext, "Not valid ", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun openRegisterFragment(){
+        fragmentManager.beginTransaction().replace(R.id.loginLayout, registerFragment, registerFragment.javaClass.simpleName).addToBackStack(null).commit()
+    }
+
+    fun openLoginFragment(){
+        fragmentManager.beginTransaction().replace(R.id.loginLayout, loginFragment, loginFragment.javaClass.simpleName).addToBackStack(null).commit()
+    }
+
+    fun closeRegisterFragment(){
+        fragmentManager.beginTransaction().remove(registerFragment).commit()
+        onBackPressed()
     }
 
     private fun sendPost(location: Location) {

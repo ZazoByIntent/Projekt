@@ -10,6 +10,7 @@ var neobdelani_podatkiRouter = require('./routes/neobdelani_podatkiRoutes');
 var obdelani_podatkiRouter = require('./routes/obdelani_podatkiRoutes');
 var rezultatRouter = require('./routes/rezultatRoutes');
 var scrapperRouter = require('./routes/scrapper_podatkiRoutes');
+var usersRouter = require('./routes/userRoutes');
 
 var app = express();
 
@@ -52,6 +53,7 @@ app.use('/neobdelaniPodatki', neobdelani_podatkiRouter);
 app.use('/obdelaniPodatki', obdelani_podatkiRouter);
 app.use('/rezultat', rezultatRouter);
 app.use('/scrapper', scrapperRouter);
+app.use('/user', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
