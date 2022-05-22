@@ -34,6 +34,7 @@ module.exports = {
                 rotacija : 0,
                 longitude : first.longitude,
                 latitude : first.latitude,
+                user_id : first.user_id,
                 datum : new Date()
             });
                 console.log("CHECK");
@@ -111,6 +112,7 @@ module.exports = {
                     stanje_ceste : 0,
                     longitude : first.longitude,
                     latitude : first.latitude,
+                    user_id : first.user_id,
                     datum : new Date()
                 });
 

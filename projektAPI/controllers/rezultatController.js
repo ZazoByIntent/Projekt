@@ -55,6 +55,7 @@ module.exports = {
 			stanje_ceste : req.body.stanje_ceste,
             latitude : req.body.latitude,
             longitude : req.body.longitude,
+            user_id : req.body.user_id,
             datum : new Date()
         });
 

@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity(){
             .add("z_pospesek", app.accelerationZ.toString())
             .add("latitude", latitudeString)
             .add("longitude", longitudeString)
+            .add("user_id", app.user_id)
             .build()
 
         val request = Request.Builder()

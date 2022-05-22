@@ -10,6 +10,7 @@ var neobdelani_podatkiSchema = new Schema({
 	'z_pospesek' : Number,
 	'latitude' : String,
 	'longitude' : String,
+	'user_id' : String,
 	'datum' : Date
 });
 

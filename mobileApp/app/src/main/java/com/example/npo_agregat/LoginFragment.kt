@@ -16,6 +16,7 @@ import okhttp3.FormBody
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONObject
 import java.lang.Exception
 
 class LoginFragment : DialogFragment() {
@@ -73,12 +74,15 @@ class LoginFragment : DialogFragment() {
                     for (i in 0 until responseHeaders.size) {
                         println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
                     }
-                    if("username" in response.body!!.string())
+                    val responseString = response.body!!.string()
+                    if("username" in responseString)
                     {
+                        val json = JSONObject(responseString)
+                        app.user_id = json.getString("_id")
                         app.loggedIn = true
                         app.user = username
                     } else {
-                        System.out.println("test")
+                        System.out.println("false")
                     }
                 }
             }

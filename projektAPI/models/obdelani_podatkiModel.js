@@ -6,6 +6,7 @@ var obdelani_podatkiSchema = new Schema({
 	'rotacija' : Number,
 	'latitude' : String,
 	'longitude' : String,
+	'user_id' : String,
 	'datum' : Date
 });
 
