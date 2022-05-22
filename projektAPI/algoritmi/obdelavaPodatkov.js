@@ -34,6 +34,7 @@ module.exports = {
 
             // Dodaj racunanje za rotacijo
             // Vir: https://stackoverflow.com/questions/29255939/calculate-rotation-from-two-coordintes
+            // Izracun rotacije za vsako os (x,y,z) -> vzames tisto rotacijo Tiste tocke (kot) katera se je najbolj zatresla
             var degreesX = Math.atan2((first.x_rotacija - second.x_rotacija), (first.y_rotacija - second.y_rotacija)) * 180 / Math.PI;
                 if (degreesX < 0.0) degreesX += 360.0;
             var degreesY = Math.atan2((first.x_rotacija - second.x_rotacija), (first.z_rotacija - second.z_rotacija)) * 180 / Math.PI;
@@ -59,6 +60,7 @@ module.exports = {
                     error: err
                 });
             }
+            console.log("End_Result",end_result);
             end_result.save(function (err, obdelani_podatki) {
 
                 if (err) {
@@ -93,16 +95,23 @@ module.exports = {
                     koordinate : first.koordinate,
                     datum : new Date()
                 });
-
+                var timeDiff = (new Date(first.datum).getTime() - new Date(second.datum).getTime());
+                console.log(first.datum,second.datum);
                 // Dodaj preverjanje za rotacijo, popravi preverjanje pospeska
-
-                if(Math.abs(first.pospesek - second.pospesek) > 10){
-                    end_result.stanje_ceste += Math.abs(first.pospesek - second.pospesek)/10;
+                // https://hypertextbook.com/facts/2001/MeredithBarricella.shtml
+                // Neki normalen povprecni pospesek avta je med 3 in 4 m/s^2,
+                // tak da če predpostavimo, da je pospesek vecji od 3
+                if(Math.abs(first.pospesek - second.pospesek) > 3 && timeDiff < 5000){
+                    //end_result.stanje_ceste += Math.abs(first.pospesek - second.pospesek)/10;
+                    // Faktor za stanje ceste -> Za koliko se je zgodila rotacija glede na pretecen cas
+                    // Vecja vrednost je -> slabsa je cesta ( Vecji je kot rotacije) ... manjsa je vrednost boljsa je cesta (manjsi je kot)
+                    end_result.stanje_ceste += timeDiff/Math.abs(first.rotacija - second.rotacija);
                 }
                 else {
                     end_result.stanje_ceste = 0;
                 }
-
+                console.log("timeDiff: ",timeDiff,"First: rotacija -",first.rotacija,"second: rotacija -",second.rotacija);
+                console.log(end_result);
                 end_result.save(function (err, rezultat) {
                     if (err) {
                         return res.status(500).json({
@@ -110,7 +119,6 @@ module.exports = {
                             error: err
                         });
                     }
-        
                     return res.status(201).json(rezultat);
                 });
             }

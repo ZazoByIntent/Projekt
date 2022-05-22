@@ -4,6 +4,18 @@ import {Bar} from 'react-chartjs-2';
 import { Card, CardHeader, CardBody } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+//var lokacijeLabel = [];
+//var dataLabel = [];
+
+async function getData() {
+    const response = await fetch("http://localhost:3001/scrapper")
+    const chartData = await response.json()
+
+    console.log(chartData);
+}
+
+getData();
+
 const data = {
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
     datasets: [{
@@ -28,7 +40,7 @@ const data = {
       borderWidth: 1
     }]
 };
-  
+
 
 const MyChart = () => {
     return (

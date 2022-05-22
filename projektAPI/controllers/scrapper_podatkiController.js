@@ -12,7 +12,11 @@ module.exports = {
      * scrapper_podatkiController.list()
      */
     list: function (req, res) {
-        Scrapper_podatkiModel.find(function (err, scrapper_podatkis) {
+        Scrapper_podatkiModel.find()
+            .sort({steviloVozil: -1})
+            .limit(6)
+            .exec(
+                function (err, scrapper_podatkis) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting scrapper_podatki.',
