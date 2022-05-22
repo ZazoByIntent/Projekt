@@ -27,6 +27,12 @@ module.exports = {
                     message: 'Error when creating obdelani_podatki2',
                     error: err
                 });
+            } else if (first.user_id != second.user_id) {
+                end_result = null;
+                return res.status(500).json({
+                    message: 'Error when creating obdelani_podatki2',
+                    error: err
+                });
             }
 
             var end_result = new Obdelani_podatkiModel({
@@ -104,6 +110,12 @@ module.exports = {
                 if(first == null || second == null){
                     return res.status(500).json({
                         message: 'Error when creating rezultat2',
+                        error: err
+                    });
+                } else if (first.user_id != second.user_id) {
+                    end_result = null;
+                    return res.status(500).json({
+                        message: 'Error when creating obdelani_podatki2',
                         error: err
                     });
                 }
