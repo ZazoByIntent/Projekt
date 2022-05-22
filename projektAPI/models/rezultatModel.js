@@ -3,7 +3,8 @@ var Schema   = mongoose.Schema;
 
 var rezultatSchema = new Schema({
 	'stanje_ceste' : Number,
-	'koordinate' : String,
+	'latitude' : String,
+	'longitude' : String,
 	'datum' : Date
 });
 

@@ -8,7 +8,8 @@ var neobdelani_podatkiSchema = new Schema({
 	'x_pospesek' : Number,
 	'y_pospesek' : Number,
 	'z_pospesek' : Number,
-	'koordinate' : String,
+	'latitude' : String,
+	'longitude' : String,
 	'datum' : Date
 });
 

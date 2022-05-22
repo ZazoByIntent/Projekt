@@ -21,10 +21,19 @@ module.exports = {
             var second = neobdelana_podatka[1]; // predzadnji dobljen podatek
 
 
+            if(first == null || second == null){
+                end_result = null;
+                return res.status(500).json({
+                    message: 'Error when creating obdelani_podatki2',
+                    error: err
+                });
+            }
+
             var end_result = new Obdelani_podatkiModel({
                 pospesek : 0,
                 rotacija : 0,
-                koordinate : first.koordinate,
+                longitude : first.longitude,
+                latitude : first.latitude,
                 datum : new Date()
             });
                 console.log("CHECK");
@@ -56,7 +65,7 @@ module.exports = {
                 // Če je časovna razlika med posnetimi podatki večja od 5 sekund, obdelavo zavržemo(ni natančnih izračunov hitrosti)
                 end_result = null;
                 return res.status(500).json({
-                    message: 'Error when creating obdelani_podatki2',
+                    message: 'Error when creating obdelani_podatki3',
                     error: err
                 });
             }
@@ -65,7 +74,7 @@ module.exports = {
 
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when creating obdelani_podatki3',
+                        message: 'Error when creating obdelani_podatki4',
                         error: err
                     });
                 }
@@ -89,12 +98,24 @@ module.exports = {
                 }
 
                 var first = obdelana_podatka[0];        
-                var second = obdelana_podatka[1];   
+                var second = obdelana_podatka[1]; 
+                
+                if(first == null || second == null){
+                    return res.status(500).json({
+                        message: 'Error when creating rezultat2',
+                        error: err
+                    });
+                }
+
                 var end_result = new rezultatModel({
                     stanje_ceste : 0,
-                    koordinate : first.koordinate,
+                    longitude : first.longitude,
+                    latitude : first.latitude,
                     datum : new Date()
                 });
+
+
+
                 var timeDiff = (new Date(first.datum).getTime() - new Date(second.datum).getTime());
                 console.log(first.datum,second.datum);
                 // Dodaj preverjanje za rotacijo, popravi preverjanje pospeska
@@ -115,7 +136,7 @@ module.exports = {
                 end_result.save(function (err, rezultat) {
                     if (err) {
                         return res.status(500).json({
-                            message: 'Error when creating rezultat',
+                            message: 'Error when creating rezultat3',
                             error: err
                         });
                     }

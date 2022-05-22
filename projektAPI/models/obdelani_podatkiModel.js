@@ -4,7 +4,8 @@ var Schema   = mongoose.Schema;
 var obdelani_podatkiSchema = new Schema({
 	'pospesek' : Number,
 	'rotacija' : Number,
-	'koordinate' : String,
+	'latitude' : String,
+	'longitude' : String,
 	'datum' : Date
 });
 

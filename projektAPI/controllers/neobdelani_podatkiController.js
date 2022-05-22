@@ -59,7 +59,8 @@ module.exports = {
 			x_pospesek : req.body.x_pospesek,
 			y_pospesek : req.body.y_pospesek,
 			z_pospesek : req.body.z_pospesek,
-			koordinate : req.body.koordinate,
+            latitude : req.body.latitude,
+            longitude : req.body.longitude,
             datum : new Date()
         });
 

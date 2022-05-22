@@ -134,7 +134,8 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun sendPost(location: Location) {
-        val locationString = location.latitude.toString() + ", " + location.longitude.toString()
+        val latitudeString = location.latitude.toString()
+        val longitudeString = location.longitude.toString()
         // Spremeni na pravilen IP od API (za testiranje more bit local IP, na localhost/127.0.0.1 se ne poveze)
         //val actualUrl = "192.168.178.55:3000"
         //val actualUrl = "192.168.1.27:3000"
@@ -148,7 +149,8 @@ class MainActivity : AppCompatActivity(){
             .add("x_pospesek", app.accelerationX.toString())
             .add("y_pospesek", app.accelerationY.toString())
             .add("z_pospesek", app.accelerationZ.toString())
-            .add("koordinate", locationString)
+            .add("latitude", latitudeString)
+            .add("longitude", longitudeString)
             .build()
 
         val request = Request.Builder()
