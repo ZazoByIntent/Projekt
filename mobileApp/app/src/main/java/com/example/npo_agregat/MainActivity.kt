@@ -37,6 +37,7 @@ import androidx.fragment.app.FragmentManager
 import okhttp3.*
 
 import java.io.IOException
+import java.lang.Exception
 import java.net.Proxy
 
 
@@ -63,9 +64,11 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        openLoginFragment()
-        app = application as MyApplication
 
+        app = application as MyApplication
+        if(!app.loggedIn){
+            openLoginFragment()
+        }
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
@@ -114,10 +117,14 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun openRegisterFragment(){
+        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
+        loginFrameLayout.elevation = 10.0f
         fragmentManager.beginTransaction().replace(R.id.loginLayout, registerFragment, registerFragment.javaClass.simpleName).addToBackStack(null).commit()
     }
 
     fun openLoginFragment(){
+        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
+        loginFrameLayout.elevation = 10.0f
         fragmentManager.beginTransaction().replace(R.id.loginLayout, loginFragment, loginFragment.javaClass.simpleName).addToBackStack(null).commit()
     }
 
@@ -149,17 +156,24 @@ class MainActivity : AppCompatActivity(){
             .post(requestBody)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
-            else {
-                val responseHeaders: Headers = response.headers
-                for (i in 0 until responseHeaders.size) {
-                    // Log.e("x_pospesek",app.accelerationX.toString())
-                    println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+        try{
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
+                else {
+                    val responseHeaders: Headers = response.headers
+                    for (i in 0 until responseHeaders.size) {
+                        // Log.e("x_pospesek",app.accelerationX.toString())
+                        println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+                    }
+                    System.out.println(response.body!!.string())
                 }
-                System.out.println(response.body!!.string())
+            }
+        } catch(ex:Exception){
+            if (applicationContext != null){
+                Toast.makeText(applicationContext!!,ex.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
+
 
         /*
         var reqParam = URLEncoder.encode("?stanje_ceste=10&koordinate=32123,32123", "UTF-8")

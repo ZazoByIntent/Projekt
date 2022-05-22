@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.example.npo_agregat.databinding.FragmentRegisterBinding
@@ -12,6 +13,7 @@ import okhttp3.FormBody
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.lang.Exception
 
 
 class RegisterFragment : DialogFragment() {
@@ -59,17 +61,23 @@ class RegisterFragment : DialogFragment() {
             .url("http://$actualUrl/user")
             .post(requestBody)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
-            else {
-                val responseHeaders: Headers = response.headers
-                for (i in 0 until responseHeaders.size) {
-                    println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+        try{
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
+                else {
+                    val responseHeaders: Headers = response.headers
+                    for (i in 0 until responseHeaders.size) {
+                        println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+                    }
+                    System.out.println(response.body!!.string())
                 }
-                System.out.println(response.body!!.string())
+            }
+        } catch (ex:Exception){
+            if (context != null){
+                Toast.makeText(context!!,ex.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
+
 
     }
 
