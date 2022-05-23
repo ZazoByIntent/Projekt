@@ -14,7 +14,7 @@ module.exports = {
     list: function (req, res) {
         Scrapper_podatkiModel.find()
             .sort({steviloVozil: -1})
-            .limit(6)
+            .limit(10)
             .exec(
                 function (err, scrapper_podatkis) {
             if (err) {
