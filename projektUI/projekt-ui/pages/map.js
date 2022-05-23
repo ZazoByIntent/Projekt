@@ -12,7 +12,7 @@ export default function Home() {
     <main>
         <div className="my-container">
             <div className="map">
-                <MapWithNoSSR/>
+              <MapWithNoSSR />;
             </div>
             <div className="chart">
                 <MyChart/>
