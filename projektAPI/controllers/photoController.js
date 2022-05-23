@@ -54,9 +54,7 @@ module.exports = {
     create: function (req, res) {      
         const file = req.file;
         const path = file["path"];
-        console.log("Path: " + path);
         const user_id = req.body.user_id;
-        console.log("User: " + user_id);
       
         var photo = new PhotoModel({
 			path : path,

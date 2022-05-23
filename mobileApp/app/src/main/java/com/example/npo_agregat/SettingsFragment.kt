@@ -33,7 +33,7 @@ import java.io.FileOutputStream
 import javax.security.auth.callback.Callback
 
 
-class SettingsFragment : DialogFragment(), UploadRequestBody.UploadCallback {
+class SettingsFragment : DialogFragment() {
     private var _binding: FragmentSettingsBinding? = null
     lateinit var app:MyApplication
     private val binding get() = _binding!!
@@ -98,22 +98,7 @@ class SettingsFragment : DialogFragment(), UploadRequestBody.UploadCallback {
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
 
-        binding.progressBar.progress = 0
-
-
-        val jsonObject = JSONObject()
-        jsonObject.put("user_id",app.user_id.toString())
-
-
-        val body = UploadRequestBody(file, "image", this)
         val reqBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-        val requestFile : RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-
-        jsonObject.put("path", requestFile)
-
-        val jsonBody = jsonObject.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-
         val mpbody : MultipartBody.Part = MultipartBody.Part.createFormData("myFile", file.name, reqBody)
         val rbid : RequestBody = "myFile".toRequestBody("text/plain".toMediaTypeOrNull())
         val us_id : RequestBody = app.user_id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
@@ -126,7 +111,6 @@ class SettingsFragment : DialogFragment(), UploadRequestBody.UploadCallback {
             override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
                 if(t.message != null)
                     Toast.makeText(context!!, t.message, Toast.LENGTH_LONG).show()
-                binding.progressBar.progress = 0
             }
 
             override fun onResponse(
@@ -134,12 +118,10 @@ class SettingsFragment : DialogFragment(), UploadRequestBody.UploadCallback {
                 response: retrofit2.Response<ResponseBody>
             ) {
                 response.body()?.let {
-                    binding.progressBar.progress = 100
+                    Toast.makeText(context!!, "Success", Toast.LENGTH_LONG).show()
                 }
             }
         })
-
-
     }
 
     fun ContentResolver.getFileName(uri: Uri): String {
@@ -153,42 +135,4 @@ class SettingsFragment : DialogFragment(), UploadRequestBody.UploadCallback {
         }
         return name
     }
-
-    override fun onProgressUpdate(percentage: Int) {
-        binding.progressBar.progress = percentage
-    }
-
-    private fun sendPost(username: String, email: String, password: String) {
-        val actualUrl = "192.168.178.55:3001"
-
-        val requestBody = FormBody.Builder()
-            .add("username", username)
-            .add("password", password)
-            .add("email", email)
-            .build()
-
-        val request = Request.Builder()
-            .url("http://$actualUrl/user")
-            .post(requestBody)
-            .build()
-        try{
-            client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
-                else {
-                    val responseHeaders: Headers = response.headers
-                    for (i in 0 until responseHeaders.size) {
-                        println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
-                    }
-                    System.out.println(response.body!!.string())
-                }
-            }
-        } catch (ex: Exception){
-            if (context != null){
-                Toast.makeText(context!!,ex.localizedMessage, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-    }
-
 }

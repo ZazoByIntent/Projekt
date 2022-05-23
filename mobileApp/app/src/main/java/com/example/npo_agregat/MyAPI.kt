@@ -19,10 +19,6 @@ interface MyAPI {
         @Part image : MultipartBody.Part,
         @Part("myFile") name : RequestBody,
         @Part("user_id") user_id : RequestBody
-        //@Body body:RequestBody
-        /*
-        @Part image: MultipartBody.Part,
-        @Part("user_id") desc: RequestBody*/
     ): Call<ResponseBody>
 
     companion object {
