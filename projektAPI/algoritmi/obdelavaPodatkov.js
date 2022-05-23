@@ -58,14 +58,12 @@ module.exports = {
             var degreesZ = Math.atan2((first.y_rotacija - second.y_rotacija), (first.z_rotacija - second.z_rotacija)) * 180 / Math.PI;
                 if (degreesZ < 0.0) degreesZ += 360.0;
 
-            end_result.rotacija = Math.max(degreesX,degreesY,degreesZ);
+            end_result.rotacija = (degreesX+degreesY+degreesZ)/3;
 
-               /* console.log("DegreesX: ",degreesX);
+            /*    console.log("DegreesX: ",degreesX);
                 console.log("DegreesY: ",degreesY);
                 console.log("DegreesZ: ",degreesZ);
-                console.log("Rotacija - Koncna: ",end_result.rotacija);
-                console.log("First: ",first);
-                console.log("Second: ",second);*/
+                console.log("Rotacija - Koncna: ",end_result.rotacija);*/
 
             if(timeDiff > 5000)
             {
@@ -136,16 +134,21 @@ module.exports = {
                 // https://hypertextbook.com/facts/2001/MeredithBarricella.shtml
                 // Neki normalen povprecni pospesek avta je med 3 in 4 m/s^2,
                 // tak da če predpostavimo, da je pospesek vecji od 3
-                if(Math.abs(first.pospesek - second.pospesek) > 3 && timeDiff < 5000){
+                if(Math.abs(first.pospesek - second.pospesek) > 3){
                     //end_result.stanje_ceste += Math.abs(first.pospesek - second.pospesek)/10;
                     // Faktor za stanje ceste -> Za koliko se je zgodila rotacija glede na pretecen cas
                     // Vecja vrednost je -> slabsa je cesta ( Vecji je kot rotacije) ... manjsa je vrednost boljsa je cesta (manjsi je kot)
                     end_result.stanje_ceste += timeDiff/Math.abs(first.rotacija - second.rotacija);
+                    //console.log("timeDiff: ",timeDiff,"Rotacija -",first.rotacija-second.rotacija);
+                    if(end_result.stanje_ceste > 200) end_result.stanje_ceste = 5; // Tresljaj za manj kot 10°
+                    else if(end_result.stanje_ceste > 100) end_result.stanje_ceste = 4; // Tresljaj 10° < x < 20°
+                    else if(end_result.stanje_ceste > 50) end_result.stanje_ceste = 3; // Tresljaj 20° < x < 40°
+                    else if(end_result.stanje_ceste > 25) end_result.stanje_ceste = 2; // Tresljaj 40° < x < 80°
+                    else if(end_result.stanje_ceste > 0) end_result.stanje_ceste = 1; // Tresljaj za več kot 80°
                 }
-                else {
+                else { //zavrzemo saj se predmet ni premikal oz. je biu premajhen pospesek
                     end_result.stanje_ceste = 0;
                 }
-                console.log("timeDiff: ",timeDiff,"First: rotacija -",first.rotacija,"second: rotacija -",second.rotacija);
                 console.log(end_result);
                 end_result.save(function (err, rezultat) {
                     if (err) {
