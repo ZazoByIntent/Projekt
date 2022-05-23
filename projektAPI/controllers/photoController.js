@@ -1,5 +1,6 @@
 var PhotoModel = require('../models/photoModel.js');
 
+
 /**
  * photoController.js
  *
@@ -50,10 +51,16 @@ module.exports = {
     /**
      * photoController.create()
      */
-    create: function (req, res) {
+    create: function (req, res) {      
+        const file = req.file;
+        const path = file["path"];
+        console.log("Path: " + path);
+        const user_id = req.body.user_id;
+        console.log("User: " + user_id);
+      
         var photo = new PhotoModel({
-			path : req.body.path,
-			user_id : req.body.user_id
+			path : path,
+			user_id : user_id
         });
 
         photo.save(function (err, photo) {
@@ -66,8 +73,8 @@ module.exports = {
 
             return res.status(201).json(photo);
         });
-    },
-
+    }, 
+    
     /**
      * photoController.update()
      */
