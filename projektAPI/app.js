@@ -11,6 +11,7 @@ var obdelani_podatkiRouter = require('./routes/obdelani_podatkiRoutes');
 var rezultatRouter = require('./routes/rezultatRoutes');
 var scrapperRouter = require('./routes/scrapper_podatkiRoutes');
 var usersRouter = require('./routes/userRoutes');
+var photosRouter = require('./routes/photoRoutes');
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/obdelaniPodatki', obdelani_podatkiRouter);
 app.use('/rezultat', rezultatRouter);
 app.use('/scrapper', scrapperRouter);
 app.use('/user', usersRouter);
+app.use('/photo', photosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
