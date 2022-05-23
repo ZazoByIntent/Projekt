@@ -1,7 +1,32 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import React, { useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
+
+var rezultati = [];
+
+function getRezultati() {
+  return fetch('http://localhost:3001/rezultat')
+  .then((response) => response.json())
+  .then((responseJson) => {
+    for (var i = 0; i < responseJson.length; i++){
+      let stanjeCeste = responseJson[i].stanje_ceste;
+      const koordinate = responseJson[i].koordinate.split(",");
+      koordinate[1] = koordinate[1].trim();
+      const noviPodatki = [stanjeCeste, koordinate];
+      rezultati.push(noviPodatki)
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+window.onload = function() {
+  getRezultati();
+};
+
 
 const Map = () => {
   return (
