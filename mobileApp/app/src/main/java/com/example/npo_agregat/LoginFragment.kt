@@ -54,7 +54,8 @@ class LoginFragment : DialogFragment() {
     }
 
     private fun sendPost(username: String, password: String) {
-        val actualUrl = "164.8.160.230:3001"
+        //val actualUrl = "164.8.160.230:3001"
+        val actualUrl = "192.168.178.55:3001"
 
         val requestBody = FormBody.Builder()
             .add("username", username)

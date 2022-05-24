@@ -153,10 +153,11 @@ class MainActivity : AppCompatActivity(){
         val latitudeString = location.latitude.toString()
         val longitudeString = location.longitude.toString()
         // Spremeni na pravilen IP od API (za testiranje more bit local IP, na localhost/127.0.0.1 se ne poveze)
-        //val actualUrl = "192.168.178.55:3000"
+        val actualUrl = "192.168.178.55:3001"
         //val actualUrl = "192.168.1.27:3000"
         //val actualUrl = "localhost:3000"
-        val actualUrl = "164.8.160.230:3001"
+        //val actualUrl = "164.8.160.230:3001"
+
 
         val requestBody = FormBody.Builder()
             .add("x_rotacija", app.gyroscopeX.toString())
