@@ -32,8 +32,8 @@ app.use(cors({
 
 var mongoose = require('mongoose');
 
-//mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/?retryWrites=true&w=majority'
-var mongoDB = 'mongodb://127.0.0.1/Projekt';
+var mongoDB = 'mongodb+srv://test:test@cluster0.fmih9.mongodb.net/?retryWrites=true&w=majority'
+//var mongoDB = 'mongodb://127.0.0.1/Projekt';
 
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;

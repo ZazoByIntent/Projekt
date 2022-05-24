@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity(){
         //val actualUrl = "192.168.178.55:3000"
         //val actualUrl = "192.168.1.27:3000"
         //val actualUrl = "localhost:3000"
-        val actualUrl = "192.168.178.55:3001"
+        val actualUrl = "164.8.160.230:3001"
 
         val requestBody = FormBody.Builder()
             .add("x_rotacija", app.gyroscopeX.toString())
