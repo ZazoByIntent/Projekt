@@ -11,6 +11,7 @@ var obdelani_podatkiRouter = require('./routes/obdelani_podatkiRoutes');
 var rezultatRouter = require('./routes/rezultatRoutes');
 var scrapperRouter = require('./routes/scrapper_podatkiRoutes');
 var usersRouter = require('./routes/userRoutes');
+var photosRouter = require('./routes/photoRoutes');
 
 var app = express();
 
@@ -30,8 +31,11 @@ app.use(cors({
 }));
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/?retryWrites=true&w=majority'
-//var mongoDB = 'mongodb://127.0.0.1/Scrapper';
+
+//var mongoDB = 'mongodb+srv://test:test@cluster0.fmih9.mongodb.net/?retryWrites=true&w=majority'
+mongoDB = 'mongodb+srv://test:test@cluster0.to3tv.mongodb.net/?retryWrites=true&w=majority'
+//var mongoDB = 'mongodb://127.0.0.1/Projekt';
+
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -54,6 +58,7 @@ app.use('/obdelaniPodatki', obdelani_podatkiRouter);
 app.use('/rezultat', rezultatRouter);
 app.use('/scrapper', scrapperRouter);
 app.use('/user', usersRouter);
+app.use('/photo', photosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

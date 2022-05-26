@@ -14,10 +14,10 @@
     "leaflet": "^1.8.0",
     "leaflet-defaulticon-compatibility": "^0.1.1",
     "leaflet-geosearch": "^3.6.0",
-    "next": "12.1.6",
-    "react": "18.1.0",
+    "next": "^12.1.6",
+    "react": "^18.1.0",
     "react-chartjs-2": "^4.1.0",
-    "react-dom": "18.1.0",
+    "react-dom": "^18.1.0",
     "react-leaflet": "^4.0.0",
     "reactstrap": "^9.0.2"
   },

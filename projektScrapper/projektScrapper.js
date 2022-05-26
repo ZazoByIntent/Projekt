@@ -1,6 +1,6 @@
 const rp = require('request-promise');
 const url = 'https://opendata.si/promet/counters/';
-const apiUrl = "http://localhost:3000/scrapper";
+const apiUrl = "http://localhost:3001/scrapper";
 const axios = require('axios');
 var XMLHttpRequest = require('xhr2');
 var moment = require('moment');

@@ -37,6 +37,7 @@ import androidx.fragment.app.FragmentManager
 import okhttp3.*
 
 import java.io.IOException
+import java.lang.Exception
 import java.net.Proxy
 
 
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var sensorManager: SensorManager
     private var loginFragment = LoginFragment()
     private var registerFragment = RegisterFragment()
+    private var settingsFragment = SettingsFragment()
     var fragmentManager = supportFragmentManager
     private val NS2S = 1.0f / 1000000000.0f
     private val deltaRotationVector = FloatArray(4) { 0f }
@@ -63,9 +65,11 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        openLoginFragment()
-        app = application as MyApplication
 
+        app = application as MyApplication
+        if(!app.loggedIn){
+            openLoginFragment()
+        }
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
@@ -97,6 +101,9 @@ class MainActivity : AppCompatActivity(){
                 app.isCapturing = false
             }
         }
+        binding.button3.setOnClickListener {
+            openSettingsFragment()
+        }
     }
 
     fun closeLoginFragment(){
@@ -114,11 +121,27 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun openRegisterFragment(){
+        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
+        loginFrameLayout.elevation = 10.0f
         fragmentManager.beginTransaction().replace(R.id.loginLayout, registerFragment, registerFragment.javaClass.simpleName).addToBackStack(null).commit()
     }
 
     fun openLoginFragment(){
+        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
+        loginFrameLayout.elevation = 10.0f
         fragmentManager.beginTransaction().replace(R.id.loginLayout, loginFragment, loginFragment.javaClass.simpleName).addToBackStack(null).commit()
+    }
+
+    fun openSettingsFragment(){
+        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
+        loginFrameLayout.elevation = 10.0f
+        fragmentManager.beginTransaction().replace(R.id.loginLayout, settingsFragment, settingsFragment.javaClass.simpleName).addToBackStack(null).commit()
+    }
+
+    fun closeSettingsFragment(){
+        fragmentManager.beginTransaction().remove(settingsFragment).commit()
+        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
+        loginFrameLayout.elevation = 0.0f
     }
 
     fun closeRegisterFragment(){
@@ -127,12 +150,14 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun sendPost(location: Location) {
-        val locationString = location.latitude.toString() + ", " + location.longitude.toString()
+        val latitudeString = location.latitude.toString()
+        val longitudeString = location.longitude.toString()
         // Spremeni na pravilen IP od API (za testiranje more bit local IP, na localhost/127.0.0.1 se ne poveze)
-        //val actualUrl = "192.168.178.55:3000"
+        val actualUrl = "192.168.178.55:3001"
         //val actualUrl = "192.168.1.27:3000"
         //val actualUrl = "localhost:3000"
-        val actualUrl = "192.168.178.55:3001"
+        //val actualUrl = "164.8.160.230:3001"
+
 
         val requestBody = FormBody.Builder()
             .add("x_rotacija", app.gyroscopeX.toString())
@@ -141,7 +166,9 @@ class MainActivity : AppCompatActivity(){
             .add("x_pospesek", app.accelerationX.toString())
             .add("y_pospesek", app.accelerationY.toString())
             .add("z_pospesek", app.accelerationZ.toString())
-            .add("koordinate", locationString)
+            .add("latitude", latitudeString)
+            .add("longitude", longitudeString)
+            .add("user_id", app.user_id)
             .build()
 
         val request = Request.Builder()
@@ -149,17 +176,24 @@ class MainActivity : AppCompatActivity(){
             .post(requestBody)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
-            else {
-                val responseHeaders: Headers = response.headers
-                for (i in 0 until responseHeaders.size) {
-                    // Log.e("x_pospesek",app.accelerationX.toString())
-                    println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+        try{
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
+                else {
+                    val responseHeaders: Headers = response.headers
+                    for (i in 0 until responseHeaders.size) {
+                        // Log.e("x_pospesek",app.accelerationX.toString())
+                        println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
+                    }
+                    System.out.println(response.body!!.string())
                 }
-                System.out.println(response.body!!.string())
+            }
+        } catch(ex:Exception){
+            if (applicationContext != null){
+                Toast.makeText(applicationContext!!,ex.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
+
 
         /*
         var reqParam = URLEncoder.encode("?stanje_ceste=10&koordinate=32123,32123", "UTF-8")

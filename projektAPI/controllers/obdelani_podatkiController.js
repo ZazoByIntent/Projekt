@@ -54,7 +54,9 @@ module.exports = {
         var obdelani_podatki = new Obdelani_podatkiModel({
 			pospesek : req.body.pospesek,
 			rotacija : req.body.rotacija,
-			koordinate : req.body.koordinate,
+            latitude : req.body.latitude,
+            longitude : req.body.longitude,
+            user_id : req.body.user_id,
             datum : new Date()
         });
 
