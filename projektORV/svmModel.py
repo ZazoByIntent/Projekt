@@ -62,22 +62,17 @@ def checkSVM(sampleMainObjectList):
 
         if(sampleMainObjectList[i].label == 1):
             countDog += 1
-        else:
-            countCat += 1
 
         if(sampleMainObjectList[i].label == int(resp[1].ravel()[0])):
             if(sampleMainObjectList[i].label == 1):
                 pravilnoDog += 1
-            else:
-                pravilnoCat += 1
         #print(resp[1])
         #print(str(sampleMainObjectList[i].label) + " " + str(resp[1].ravel()[0]))
         #print("This object is " + str(sampleMainObjectList[i].label) + " and the prediction was " + str(resp[1].ravel()[0]))
 
-    procentCat = (float(pravilnoCat) / float(countCat)) * 100
     procentDog = (float(pravilnoDog) / float(countDog)) * 100
     print("SVM Model")
-    print("Procent pravilen cat: " + str(procentCat) + "%")
     print("Procent pravilen dog: " + str(procentDog) + "%")
-
+    print("Stevilo pravilno: " + str(pravilnoDog))
+    print("Stevilo testnih: " + str(countDog))
     return None

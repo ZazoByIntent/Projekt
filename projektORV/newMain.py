@@ -1,1 +1,0 @@
-#Treba pogovorit kok sploh točn se dela to

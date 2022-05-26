@@ -63,22 +63,18 @@ def checkKNN(sampleMainObjectList):
         ret, res, neighbours, distance = knn.findNearest(sample.reshape(1, -1), 5)
         if(sampleMainObjectList[i].label == 1):
             countDog += 1
-        else:
-            countCat += 1
 
         if(sampleMainObjectList[i].label == int(res[0][0])):
             if(sampleMainObjectList[i].label == 1):
                 pravilnoDog += 1
-            else:
-                pravilnoCat += 1
         #print(resp[1])
         #print(str(sampleMainObjectList[i].label) + " " + str(resp[1].ravel()[0]))
         #print("This object is " + str(sampleMainObjectList[i].label) + " and the prediction was " + str(res[0][0]))
 
-    procentCat = (float(pravilnoCat) / float(countCat)) * 100
     procentDog = (float(pravilnoDog) / float(countDog)) * 100
 
     print("kNN Model")
-    print("Procent pravilen cat: " + str(procentCat) + "%")
-    print("Procent pravilen dog: " + str(procentDog) + "%")
+    print("Procent pravilen luka: " + str(procentDog) + "%")
+    print("Stevilo pravilno: " + str(pravilnoDog))
+    print("Stevilo testnih: " + str(countDog))
     return None
