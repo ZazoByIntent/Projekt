@@ -1,3 +1,8 @@
 import sys
+import json
 
-print(str(sys.argv[1]))
+photos = json.loads(sys.argv[2])
+print(str("Login file: " + sys.argv[1] + " registration files: "))
+
+for photo in photos:
+    print(str(photo['path']))

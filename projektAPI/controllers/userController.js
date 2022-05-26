@@ -1,4 +1,6 @@
 var UserModel = require('../models/userModel.js');
+var orvAlgoritmi = require('../algoritmi/orvAlgoritmi.js');
+const { racunanjeZnacilk } = require('../algoritmi/orvAlgoritmi.js');
 
 /**
  * userController.js
@@ -79,6 +81,13 @@ module.exports = {
             //res.redirect('/users/profile');
             return res.json(user);
         });
+    },
+
+    face_recog: function(req, res, next){
+        const file = req.file;
+        const path = file["path"];
+        // console.log("New login image is located at: " + path);
+        orvAlgoritmi.racunanjeZnacilk(req, res, path)
     },
 
     /**
