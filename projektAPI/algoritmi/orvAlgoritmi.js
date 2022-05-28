@@ -1,6 +1,5 @@
 const photoModel = require('../models/photoModel.js');
 
-
 module.exports = {
     racunanjeZnacilk: function(req, res, path){
         photoModel.find(function (err, photos) {
@@ -17,7 +16,7 @@ module.exports = {
                 const pythonProcess = spawn('py', [processPath , path, photosList]);
                 pythonProcess.stdout.on('data', (data) => {
                     //return res.json("stdOut: " + data);
-                    if(data.toString().trim() === "auth"){
+                    if(data.toString().trim() !== "auth"){
                         return res.status(201).json("Auth");
                     }
                     else{

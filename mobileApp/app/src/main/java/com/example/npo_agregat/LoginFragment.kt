@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.npo_agregat.databinding.FragmentLoginBinding
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -30,13 +31,12 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.lang.Exception
 
-class LoginFragment : DialogFragment() {
+class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     lateinit var app:MyApplication
     private val binding get() = _binding!!
     private val client = OkHttpClient()
     var selectedImage : Uri? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +54,14 @@ class LoginFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).supportActionBar?.title = "Login"
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener() {
+        binding.btnLogin.setOnClickListener() {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
             sendPost(username, password)
-            (activity as MainActivity?)!!.closeLoginFragment()
+            activity!!.onBackPressed()
         }
-        binding.button2.setOnClickListener() {
-            (activity as MainActivity?)!!.openRegisterFragment()
+        binding.btnRegister.setOnClickListener() {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
         binding.btnFaceRecog.setOnClickListener {
             val fileName : String = "new-photo.jpg"
@@ -124,7 +124,7 @@ class LoginFragment : DialogFragment() {
                 response.body()?.let {
                     Toast.makeText(context!!, it.string(), Toast.LENGTH_LONG).show()
                     app.loggedIn = true
-                    (activity as MainActivity?)!!.closeLoginFragment()
+                    activity!!.onBackPressed()
                 }
             }
         })
@@ -159,7 +159,11 @@ class LoginFragment : DialogFragment() {
 
         try{
             client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) Log.e("Unexpected code", response.toString())
+                if (!response.isSuccessful)
+                {
+                    Log.e("Unexpected code", response.toString())
+                    Toast.makeText(context!!, "Invalid", Toast.LENGTH_LONG).show()
+                }
                 else {
                     val responseHeaders: Headers = response.headers
                     for (i in 0 until responseHeaders.size) {
@@ -173,7 +177,7 @@ class LoginFragment : DialogFragment() {
                         app.loggedIn = true
                         app.user = username
                     } else {
-                        System.out.println("false")
+                        Toast.makeText(context!!, "Invalid credentials", Toast.LENGTH_LONG).show()
                     }
                 }
             }
