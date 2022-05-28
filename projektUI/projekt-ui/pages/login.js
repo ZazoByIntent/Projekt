@@ -2,7 +2,8 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../userContext';
 import cx from 'classnames';
 import styles from '../styles/Signin.module.css'
-
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 function Login(){
     const [username, setUsername] = useState("");
@@ -38,46 +39,32 @@ function Login(){
     }
 
     return (
-        <div className="aligment">
-        <form onSubmit={Login} id="login-form" className="login-form" autoComplete="off" role="main">
-            <h1 textalign="center">Prijava</h1>
-            <div>
-                <label className="label-email">
-                    <input type="text" className="text" name="email" placeholder="Username" tabIndex="1"
-                           value={username} onChange={(e)=>(setUsername(e.target.value))}required/>
-                    <span className="required">Username</span>
-                </label>
-            </div>
-            <input type="checkbox" name="show-password" className="show-password a11y-hidden" id="show-password"
-                   tabIndex="3"/>
-            <label className="label-show-password" htmlFor="show-password">
-                <span>Show Password</span>
-            </label>
-            <div>
-                <label className="label-password">
-                    <input type="text" className="text" name="password" placeholder="Password" tabIndex="2"
-                           value={password} onChange={(e)=>(setPassword(e.target.value))}required/>
-                    <span className="required">Password</span>
-                </label>
-            </div>
-            <input type="submit" value="Log In"/>
-            <div className="email">
-                <p> Še niste registrirani? <a href="/register">Registracija</a> </p>
-            </div>
-            <figure aria-hidden="true">
-                <div className="person-body"></div>
-                <div className="neck skin"></div>
-                <div className="head skin">
-                    <div className="eyes"></div>
-                    <div className="mouth"></div>
-                </div>
-                <div className="hair"></div>
-                <div className="ears"></div>
-                <div className="shirt-1"></div>
-                <div className="shirt-2"></div>
-            </figure>
-        </form>
-            <label>{error}</label>
+        <div className="mx-auto bg-light" style={{width: "500px"}}>
+        <Form onSubmit={Login}>
+            <h1>Prijava</h1>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="text" placeholder="Enter email"
+                      value={username} onChange={(e)=>(setUsername(e.target.value))}/>
+                <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+                </Form.Text>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Password"
+                 value={password} onChange={(e)=>(setPassword(e.target.value))}/>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+            <Form.Group>
+            <Button variant="primary" type="submit">
+                Submit
+            </Button>
+         </Form.Group>
+        </Form>
         </div>
     );
 }

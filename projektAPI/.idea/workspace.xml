@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije">
+      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/components/NavItem.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/Layout.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/components/NavbarElements.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/_app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/Home.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/globals.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/controllers/neobdelani_podatkiController.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/algoritmi/obdelavaPodatkov.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="28vihFvlHFGY5WHpn1rGb6Liugk" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="" />
+      <created>1652103579170</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1652103579170</updated>
+      <workItem from="1652103580753" duration="1683000" />
+      <workItem from="1652134493892" duration="7403000" />
+      <workItem from="1652180578557" duration="2376000" />
+      <workItem from="1652279705966" duration="1235000" />
+      <workItem from="1652437291044" duration="61000" />
+      <workItem from="1653134586038" duration="438000" />
+      <workItem from="1653135119379" duration="28374000" />
+      <workItem from="1653317898378" duration="10253000" />
+      <workItem from="1653562315066" duration="8041000" />
+      <workItem from="1653697406647" duration="1794000" />
+    </task>
+    <task id="LOCAL−00001" summary="Generiranje scrapper modela,Kontrolerja,Routov">
+      <created>1652182363893</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1652182363893</updated>
+    </task>
+    <task id="LOCAL−00002" summary="Dodano racunanje za rotacijo">
+      <created>1653217763457</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1653217763458</updated>
+    </task>
+    <task id="LOCAL−00003" summary="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije">
+      <created>1653345889174</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1653345889174</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Generiranje scrapper modela,Kontrolerja,Routov" />
+    <MESSAGE value="Dodano racunanje za rotacijo" />
+    <MESSAGE value="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije" />
+    <option name="LAST_COMMIT_MESSAGE" value="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije" />
+  </component>
+</project>

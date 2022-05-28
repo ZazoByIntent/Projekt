@@ -1,40 +1,26 @@
-import React from 'react';
-import {
-    Nav,
-    NavLink,
-    Bars,
-    NavMenu,
-    NavBtn,
-    NavBtnLink
-} from './NavbarElements';
+import Link from 'next/link'
+import { useState } from "react";
+import styles from "../styles/Layout.module.css";
+import styles2 from '../styles/Home.module.css'
+import Head from "next/head";
+import Navbar from 'react-bootstrap/Navbar'
+export default function Navigation(){
 
-const Navbar = () => {
-    return (
-        <>
-            <Nav>
-                <Bars />
-                <NavMenu>
-                    <NavLink to='/about' activeStyle>
-                        About
-                    </NavLink>
-                    <NavLink to='/services' activeStyle>
-                        Services
-                    </NavLink>
-                    <NavLink to='/contact-us' activeStyle>
-                        Contact Us
-                    </NavLink>
-                    <NavLink to='/sign-up' activeStyle>
-                        Sign Up
-                    </NavLink>
-                    {/* Second Nav */}
-                    {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
-                </NavMenu>
-                <NavBtn>
-                    <NavBtnLink to='/signin'>Sign In</NavBtnLink>
-                </NavBtn>
-            </Nav>
-        </>
-    );
-};
-
-export default Navbar;
+    return <>
+        <div className="pos-f-t">
+            <div className="collapse" id="navbarToggleExternalContent">
+                <div className="bg-dark p-4">
+                    <h4 className="text-white">Collapsed content</h4>
+                    <span className="text-muted">Toggleable via the navbar brand.</span>
+                </div>
+            </div>
+            <nav className="navbar navbar-dark bg-dark">
+                <button className="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+    </>
+}
