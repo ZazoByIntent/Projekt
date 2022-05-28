@@ -67,6 +67,7 @@ function Register() {
                     </p>
                 </Form.Group>
             </Form>
+            <label>{error}</label>
         </div>
     );
 }

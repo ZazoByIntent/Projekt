@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/components/NavItem.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/_app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/Layout.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/userContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/userContext.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +62,8 @@
       <workItem from="1653135119379" duration="28374000" />
       <workItem from="1653317898378" duration="10253000" />
       <workItem from="1653562315066" duration="8041000" />
-      <workItem from="1653697406647" duration="1794000" />
+      <workItem from="1653697406647" duration="2298000" />
+      <workItem from="1653778855621" duration="1347000" />
     </task>
     <task id="LOCAL−00001" summary="Generiranje scrapper modela,Kontrolerja,Routov">
       <created>1652182363893</created>

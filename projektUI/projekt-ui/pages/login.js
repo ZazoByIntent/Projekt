@@ -6,12 +6,12 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Link from "next/link";
 
+
 function Login(){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const userContext = useContext(UserContext);
-
     async function Login(e){
         e.preventDefault();
         const res = await fetch("http://localhost:3001/user/login", {
@@ -24,19 +24,17 @@ function Login(){
             })
         });
         const data = await res.json();
-        console.log("data",data);
+        //console.log("data",data);
         if(data._id !== undefined){
             userContext.setUserContext(data);
-            console.log("User Context1",userContext);
-            console.log("data2",data);
+            //console.log("data2",data);
             window.location.href="/map";
         } else {
-            console.log("napaka");
             setUsername("");
             setPassword("");
             setError("Invalid username or password");
         }
-        console.log("User Context2",userContext);
+
     }
 
     return (
@@ -47,9 +45,6 @@ function Login(){
                 <Form.Label>Username</Form.Label>
                 <Form.Control type="text" placeholder="Enter username"
                       value={username} onChange={(e)=>(setUsername(e.target.value))}/>
-                <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                </Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -66,6 +61,7 @@ function Login(){
             </p>
          </Form.Group>
         </Form>
+            <label>{error}</label>
         </div>
     );
 }
