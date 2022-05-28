@@ -130,6 +130,19 @@ module.exports = {
     /**
      * userController.remove()
      */
+    logout: function(req, res, next){
+        if(req.session){
+            req.session.destroy(function(err){
+                if(err){
+                    return next(err);
+                } else{
+                    //return res.redirect('/');
+                    return res.status(201).json({});
+                }
+            });
+        }
+    },
+
     remove: function (req, res) {
         var id = req.params.id;
 
