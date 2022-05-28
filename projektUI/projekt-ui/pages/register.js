@@ -58,15 +58,12 @@ function Register() {
                     <Form.Control type="password" placeholder="Password"
                                   value={password} onChange={(e)=>(setPassword(e.target.value))}/>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
                 <Form.Group>
                     <Button variant="primary" type="submit">
-                        Register
+                        REGISTER
                     </Button>
-                    <p>Ste že naš uporabnik?
-                    <Link href="/login"> PRIJAVA</Link>
+                    <p>Ste že naš uporabnik?&nbsp;&nbsp;&nbsp;
+                    <Link href="/login">PRIJAVA</Link>
                     </p>
                 </Form.Group>
             </Form>

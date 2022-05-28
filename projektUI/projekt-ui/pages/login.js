@@ -4,6 +4,7 @@ import cx from 'classnames';
 import styles from '../styles/Signin.module.css'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import Link from "next/link";
 
 function Login(){
     const [username, setUsername] = useState("");
@@ -56,13 +57,13 @@ function Login(){
                 <Form.Control type="password" placeholder="Password"
                  value={password} onChange={(e)=>(setPassword(e.target.value))}/>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
             <Form.Group>
             <Button variant="primary" type="submit">
-                Submit
+                LOG IN
             </Button>
+            <p>Še niste registrirani?&nbsp;&nbsp;&nbsp;
+                    <Link href="/register">REGISTRACIJA</Link>
+            </p>
          </Form.Group>
         </Form>
         </div>
