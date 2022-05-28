@@ -39,6 +39,7 @@ import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
 import java.net.Proxy
+import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity(){
@@ -61,15 +62,14 @@ class MainActivity : AppCompatActivity(){
     private var tmp1: Float=0.0f
     private var tmp2: Float=0.0f
     private var tmp3: Float=0.0f
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         app = application as MyApplication
-        if(!app.loggedIn){
-            openLoginFragment()
-        }
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
@@ -80,73 +80,6 @@ class MainActivity : AppCompatActivity(){
         // Google location provider
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         createLocationRequest()
-
-
-        // OnClick
-        binding.btnStart.setOnClickListener {
-            if(binding.tvStatus.text == getString(R.string.textview_status_idle)){
-                binding.tvStatus.text = getString(R.string.textview_status_capturing)
-                // Zacni zajemanje podatkov
-                app.isCapturing = true
-                startLocationUpdates()
-                setUpSensorStuff()
-                Log.e("x_pospesek",app.accelerationX.toString())
-            }
-        }
-        binding.btnStop.setOnClickListener {
-            if(binding.tvStatus.text == getString(R.string.textview_status_capturing)){
-                binding.tvStatus.text = getString(R.string.textview_status_idle)
-                // Prenehaj zajemanje podatkov
-                Log.e("x_pospesek",app.accelerationX.toString())
-                app.isCapturing = false
-            }
-        }
-        binding.button3.setOnClickListener {
-            openSettingsFragment()
-        }
-    }
-
-    fun closeLoginFragment(){
-        if(app.loggedIn)
-        {
-            fragmentManager.beginTransaction().remove(loginFragment).commit()
-            val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
-            loginFrameLayout.elevation = 0.0f
-            binding.tvUser.text = app.user
-        }
-        else
-        {
-            Toast.makeText(applicationContext, "Not valid ", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    fun openRegisterFragment(){
-        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
-        loginFrameLayout.elevation = 10.0f
-        fragmentManager.beginTransaction().replace(R.id.loginLayout, registerFragment, registerFragment.javaClass.simpleName).addToBackStack(null).commit()
-    }
-
-    fun openLoginFragment(){
-        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
-        loginFrameLayout.elevation = 10.0f
-        fragmentManager.beginTransaction().replace(R.id.loginLayout, loginFragment, loginFragment.javaClass.simpleName).addToBackStack(null).commit()
-    }
-
-    fun openSettingsFragment(){
-        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
-        loginFrameLayout.elevation = 10.0f
-        fragmentManager.beginTransaction().replace(R.id.loginLayout, settingsFragment, settingsFragment.javaClass.simpleName).addToBackStack(null).commit()
-    }
-
-    fun closeSettingsFragment(){
-        fragmentManager.beginTransaction().remove(settingsFragment).commit()
-        val loginFrameLayout = findViewById<FrameLayout>(R.id.loginLayout)
-        loginFrameLayout.elevation = 0.0f
-    }
-
-    fun closeRegisterFragment(){
-        fragmentManager.beginTransaction().remove(registerFragment).commit()
-        onBackPressed()
     }
 
     private fun sendPost(location: Location) {
@@ -158,6 +91,10 @@ class MainActivity : AppCompatActivity(){
         //val actualUrl = "localhost:3000"
         //val actualUrl = "164.8.160.230:3001"
 
+        if(app.gyroscopeX == 0.0f || app.accelerationX == 0.0){
+            Log.e("Error:", "Sensors not ready")
+            return
+        }
 
         val requestBody = FormBody.Builder()
             .add("x_rotacija", app.gyroscopeX.toString())
@@ -193,40 +130,9 @@ class MainActivity : AppCompatActivity(){
                 Toast.makeText(applicationContext!!,ex.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
-
-
-        /*
-        var reqParam = URLEncoder.encode("?stanje_ceste=10&koordinate=32123,32123", "UTF-8")
-        val mURL = URL("http://192.168.178.55:3000/rezultat")
-
-        with(mURL.openConnection() as HttpURLConnection) {
-            setRequestProperty("Content-Type", "application/json; charset=utf-8")
-            requestMethod = "POST"
-            doOutput = true
-
-            val wr = OutputStreamWriter(outputStream)
-            wr.write(reqParam)
-            wr.flush()
-
-            println("URL : $url")
-            println("Response Code : $responseCode")
-            println("Response message : $responseMessage")*/
-            /*
-            BufferedReader(InputStreamReader(inputStream)).use {
-                val response = StringBuffer()
-
-                var inputLine = it.readLine()
-                while (inputLine != null) {
-                    response.append(inputLine)
-                    inputLine = it.readLine()
-                }
-                println("Response : $response")
-            }
-            disconnect()*/
-
     }
 
-    private fun setUpSensorStuff() {
+    fun setUpSensorStuff() {
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
@@ -246,6 +152,10 @@ class MainActivity : AppCompatActivity(){
                 SensorManager.SENSOR_DELAY_UI
             )
         }
+    }
+
+    fun stopSensors() {
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
     }
 
     // Pospeškometer
@@ -359,7 +269,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun startLocationUpdates() {
+    fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -379,22 +289,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     // stop location updates
-    private fun stopLocationUpdates() {
+    fun stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
-
-    // stop receiving location update when activity not visible/foreground
-    override fun onPause() {
-        super.onPause()
-        if(app.isCapturing)
-            stopLocationUpdates()
-    }
-
-    // start receiving location update when activity  visible/foreground
-    override fun onResume() {
-        super.onResume()
-        if(app.isCapturing)
-            startLocationUpdates()
-    }
-
 }

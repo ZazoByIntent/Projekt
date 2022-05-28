@@ -7,17 +7,17 @@
     tools:context=".SettingsFragment">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnChoose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Choose photo"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/btnUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Upload photo"

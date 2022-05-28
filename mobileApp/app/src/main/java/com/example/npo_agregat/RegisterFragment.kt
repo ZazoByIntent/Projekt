@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.example.npo_agregat.databinding.FragmentRegisterBinding
 import okhttp3.FormBody
 import okhttp3.Headers
@@ -16,7 +17,7 @@ import okhttp3.Request
 import java.lang.Exception
 
 
-class RegisterFragment : DialogFragment() {
+class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     lateinit var app:MyApplication
     private val binding get() = _binding!!
@@ -36,14 +37,14 @@ class RegisterFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).supportActionBar?.title = "Login"
+        (activity as AppCompatActivity).supportActionBar?.title = "Register"
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener() {
+        binding.btnLogin.setOnClickListener() {
             val username = binding.etUsername.text.toString()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
             sendPost(username, email, password)
-            (activity as MainActivity?)!!.closeRegisterFragment()
+            activity!!.onBackPressed()
         }
     }
 
