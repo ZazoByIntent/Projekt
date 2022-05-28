@@ -38,7 +38,6 @@ class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     lateinit var app:MyApplication
     private val binding get() = _binding!!
-    private val client = OkHttpClient()
     var selectedImage : Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +80,6 @@ class SettingsFragment : Fragment() {
             when(requestCode){
                 100 -> {
                     selectedImage = data?.data
-
                 }
             }
         }
@@ -90,7 +88,7 @@ class SettingsFragment : Fragment() {
     private fun uploadImage() {
         if(selectedImage == null){
             Toast.makeText(context, "Select image first!", Toast.LENGTH_LONG).show()
-            return;
+            return
         }
 
         val parcelFileDescriptor = context!!.contentResolver.openFileDescriptor(selectedImage!!, "r", null) ?: return

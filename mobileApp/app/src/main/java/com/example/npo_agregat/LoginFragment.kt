@@ -38,7 +38,6 @@ class LoginFragment : Fragment() {
     private val client = OkHttpClient()
     var selectedImage : Uri? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

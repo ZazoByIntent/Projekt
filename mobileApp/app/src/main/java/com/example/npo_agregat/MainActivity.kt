@@ -1,14 +1,12 @@
 package com.example.npo_agregat
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
@@ -19,27 +17,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.npo_agregat.databinding.ActivityMainBinding
 import com.google.android.gms.location.*
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
-import java.net.HttpURLConnection
-import java.net.URL
-import java.net.URLEncoder
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
-import android.widget.FrameLayout
-import androidx.core.view.ViewCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import okhttp3.*
-
-import java.io.IOException
 import java.lang.Exception
-import java.net.Proxy
-import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity(){
@@ -57,12 +41,6 @@ class MainActivity : AppCompatActivity(){
     private val deltaRotationVector = FloatArray(4) { 0f }
     private var timestamp: Float = 0f
     private val client = OkHttpClient()
-    //private var mAccelerometer : Sensor ?= null
-    //private var mGyroscope : Sensor ?= null
-    private var tmp1: Float=0.0f
-    private var tmp2: Float=0.0f
-    private var tmp3: Float=0.0f
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,11 +51,9 @@ class MainActivity : AppCompatActivity(){
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        // Dovoljenja
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(this, Manifest.permission.HIGH_SAMPLING_RATE_SENSORS) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.HIGH_SAMPLING_RATE_SENSORS), 2)
         }
-        // Google location provider
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         createLocationRequest()
     }
@@ -85,10 +61,8 @@ class MainActivity : AppCompatActivity(){
     private fun sendPost(location: Location) {
         val latitudeString = location.latitude.toString()
         val longitudeString = location.longitude.toString()
-        // Spremeni na pravilen IP od API (za testiranje more bit local IP, na localhost/127.0.0.1 se ne poveze)
         val actualUrl = "192.168.178.55:3001"
         //val actualUrl = "192.168.1.27:3000"
-        //val actualUrl = "localhost:3000"
         //val actualUrl = "164.8.160.230:3001"
 
         if(app.gyroscopeX == 0.0f || app.accelerationX == 0.0){
@@ -241,7 +215,6 @@ class MainActivity : AppCompatActivity(){
             app.gyroscopeX = deltaRotationVector[0]
             app.gyroscopeY = deltaRotationVector[1]
             app.gyroscopeZ = deltaRotationVector[2]
-
         }
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
 
@@ -250,7 +223,6 @@ class MainActivity : AppCompatActivity(){
 
     private fun createLocationRequest()
     {
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest()
         locationRequest.interval = 5000
@@ -288,7 +260,6 @@ class MainActivity : AppCompatActivity(){
         )
     }
 
-    // stop location updates
     fun stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }

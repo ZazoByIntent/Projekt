@@ -29,10 +29,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).supportActionBar?.title = "Agregat"
         if(!app.loggedIn){
-            // openLoginFragment()
+            findNavController().navigate(R.id.action_global_loginFragment)
         }
 
-        // OnClick
         binding.btnStart.setOnClickListener {
             if(binding.tvStatus.text == getString(R.string.textview_status_idle)){
                 binding.tvStatus.text = getString(R.string.textview_status_capturing)

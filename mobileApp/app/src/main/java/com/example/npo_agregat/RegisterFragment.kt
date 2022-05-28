@@ -48,7 +48,6 @@ class RegisterFragment : Fragment() {
         }
     }
 
-
     private fun sendPost(username: String, email: String, password: String) {
         //val actualUrl = "164.8.160.230:3001"
         val actualUrl = "192.168.178.55:3001"
@@ -79,8 +78,6 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(context!!,ex.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
     override fun onDestroyView() {
