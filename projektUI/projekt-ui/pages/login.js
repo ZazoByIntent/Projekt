@@ -39,12 +39,12 @@ function Login(){
     }
 
     return (
-        <div className="mx-auto bg-light" style={{width: "500px"}}>
+        <div className="mx-auto pt-5 bg-light" style={{width: "500px"}}>
         <Form onSubmit={Login}>
             <h1>Prijava</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="Enter email"
+                <Form.Control type="text" placeholder="Enter username"
                       value={username} onChange={(e)=>(setUsername(e.target.value))}/>
                 <Form.Text className="text-muted">
                     We'll never share your email with anyone else.

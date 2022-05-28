@@ -36,7 +36,7 @@ function Register() {
     }
 
     return(
-        <div className="mx-auto bg-light" style={{width: "500px"}}>
+        <div className="mx-auto pt-5 bg-light" style={{width: "500px"}}>
             <Form onSubmit={Register}>
                 <h1>Registracija</h1>
                 <Form.Group className="mb-3" controlId="formBasicEmail">

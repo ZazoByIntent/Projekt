@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije">
-      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/components/NavItem.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/Layout.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/components/NavbarElements.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/_app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/pages/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/Home.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/../projektUI/projekt-ui/styles/globals.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
