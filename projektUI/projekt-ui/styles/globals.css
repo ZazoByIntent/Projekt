@@ -41,15 +41,20 @@ a {
   width: 30%;
   position: absolute;
   z-index: 2;
-  bottom: 15%;
+  top: 60%;
   left: 2%;
   opacity: 0.96;
 }
 
 .my-container {
-  height: 100%;
+  padding-top : 3%;
+  height: 94%;
   width: 100%;
   position: absolute;
+}
+
+.navbar-brand {
+  margin-left : 3%;
 }
 
 

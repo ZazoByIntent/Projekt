@@ -57,7 +57,7 @@ module.exports = {
                 const processPath = '../projektORV/createModule.py';
                 const photosList = JSON.stringify(photos);
                 const createModuleProcess = spawn('py', [processPath, photosList]);
-                console.log(photosList);
+                
                 /* 
                 pythonProcess.stderr.on('data', (data) => {
                     // return res.json("Error: " + data);
