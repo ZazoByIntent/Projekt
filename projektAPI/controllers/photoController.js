@@ -97,6 +97,8 @@ module.exports = {
                         error: err
                     });
                 }
+
+                orvAlgoritmi.racunanjeZnacilk(req, res, path, user_id)
                 return res.status(201).json(photo);
             });
         });
