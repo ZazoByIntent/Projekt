@@ -1,6 +1,7 @@
 var PhotoModel = require('../models/photoModel.js');
 var UserModel = require('../models/userModel.js');
-
+var orvAlgoritmi = require('../algoritmi/orvAlgoritmi.js');
+const { racunanjeZnacilk } = require('../algoritmi/orvAlgoritmi.js');
 
 /**
  * photoController.js
@@ -75,7 +76,7 @@ module.exports = {
 			user.password = req.body.password ? req.body.password : user.password;
 			user.email = req.body.email ? req.body.email : user.email;
 			user.tfa = true;
-            
+
             user.save(function (err, user) {
                 if (err) {
                     return res.status(500).json({

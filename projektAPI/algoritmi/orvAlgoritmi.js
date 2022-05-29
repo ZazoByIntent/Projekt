@@ -15,6 +15,7 @@ module.exports = {
                 const { spawn } = require("child_process");
                 processPath = '../projektORV/testModule.py';
                 const testModuleProcess = spawn('py', [processPath , path]);
+                /*
                 testModuleProcess.stdout.on('data', (data) => {
                     //return res.json("stdOut: " + data);
                     //preveri 
@@ -28,8 +29,8 @@ module.exports = {
                             error: data
                         });
                     }
-                })
-                
+                })*/
+                return res.status(201).json("Auth");
                 /* 
                 pythonProcess.stderr.on('data', (data) => {
                     // return res.json("Error: " + data);

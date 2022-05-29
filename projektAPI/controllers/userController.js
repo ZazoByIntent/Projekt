@@ -1,6 +1,6 @@
 var UserModel = require('../models/userModel.js');
 var orvAlgoritmi = require('../algoritmi/orvAlgoritmi.js');
-const { racunanjeZnacilk } = require('../algoritmi/orvAlgoritmi.js');
+const { avtentifikacija } = require('../algoritmi/orvAlgoritmi.js');
 
 /**
  * userController.js
@@ -87,7 +87,7 @@ module.exports = {
     face_recog: function(req, res, next){
         const file = req.file;
         const path = file["path"];
-        const user_id = file["user_id"];
+        const user_id = req.body.user_id;
         // console.log("New login image is located at: " + path);
         orvAlgoritmi.avtentifikacija(req, res, path, user_id)
     },
