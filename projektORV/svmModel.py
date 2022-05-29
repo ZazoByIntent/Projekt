@@ -1,12 +1,18 @@
 import cv2
 import numpy
+import pandas as pd
+
 
 class imageObject:
+    vseZnacilke = []
+    label = 0 #1 za sliko uporabnika, 0 za za ostalo
+
+class imageObjectPoslano:
     normalizedHist = []
     lbpList = []
-    label = 0 #1 za psa, 0 za mačko
+    label = 0 #1 za sliko uporabnika, 0 za za ostalo
 
-def trainSVM(imageObjectList):
+def trainSVM(imageObjectList, imageObjectListPoslano):
     tempLabels = []
     tempSamples = []
     labels = []
@@ -19,28 +25,62 @@ def trainSVM(imageObjectList):
     svm.setKernel(cv2.ml.SVM_LINEAR)
     #svm.setGamma(5.383)
     #svm.setC(2.67)
+    
+
 
     for i in range(0, len(imageObjectList), 1):
-        tempList = []
-        for z in range(0, len(imageObjectList[i].normalizedHist),1):
-            tempList.append(imageObjectList[i].normalizedHist[z])
-        for z in range(0, len(imageObjectList[i].lbpList),1):
-            tempList.append(imageObjectList[i].lbpList[z])
-        samplesMain.append(tempList)
+        samplesMain.append(imageObjectList[i].vseZnacilke)
         labelsMain.append(imageObjectList[i].label)
 
+    for i in range(0, len(imageObjectListPoslano), 1):
+        tempList = []
+        for z in range(0, len(imageObjectListPoslano[i].normalizedHist),1):
+            tempList.append(imageObjectListPoslano[i].normalizedHist[z])
+        for z in range(0, len(imageObjectListPoslano[i].lbpList),1):
+            tempList.append(imageObjectListPoslano[i].lbpList[z])
+        samplesMain.append(tempList)
+        labelsMain.append(imageObjectListPoslano[i].label)
+   
     '''
     for i in range(0, len(samplesMain), 1):
         tempSamples.append(samplesMain[i])
 
     for i in range(0, len(labelsMain), 1):
         tempSamples.append(labelsMain[i])
-    '''
+    
+
+    for i in range(0, 200, 1):
+        labelsMain.append(0)
+    
+    
+    
+    df = pd.read_csv('data-labels.csv')
+    labels = df.to_numpy()
+    df = pd.read_csv('data-samples.csv')
+    samples = df.to_numpy()
+
+    print(labels[0])
+    print(samples)
+    
     labels = numpy.array(labelsMain)
     samples = numpy.float32(samplesMain)
 
-    #print(samples)
+    pd.DataFrame(labels).to_csv("data-labels.csv",header=False, index=False)
+    pd.DataFrame(samples).to_csv("data-samples.csv",header=False, index=False)
+    
 
+    df = pd.read_csv('data-labels.csv')
+    labels = df.to_numpy()
+    for i in range(0, len(labels), 1):
+        labelsMain.append(labels[i][0])
+    labels = numpy.array(labelsMain)
+
+    df = pd.read_csv('data-samples.csv')
+    samples = df.to_numpy()
+    samples = numpy.float32(samples)
+    '''
+    labels = numpy.array(labelsMain)
+    samples = numpy.float32(samples)
     svm.train(samples, cv2.ml.ROW_SAMPLE, labels)
     svm.save('svm_data.dat')
     print("Svm done")

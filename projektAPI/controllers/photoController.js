@@ -1,5 +1,6 @@
 var PhotoModel = require('../models/photoModel.js');
-
+var orvAlgoritmi = require('../algoritmi/orvAlgoritmi.js');
+const { racunanjeZnacilk } = require('../algoritmi/orvAlgoritmi.js');
 
 /**
  * photoController.js
@@ -68,6 +69,8 @@ module.exports = {
                     error: err
                 });
             }
+             
+            orvAlgoritmi.racunanjeZnacilk(req, res, path, user_id)
 
             return res.status(201).json(photo);
         });

@@ -81,7 +81,7 @@ def hogIzvedi(dir):
             for x in range(0, len(normalizedHOGHists[0][0]),1):
                 fixedNormalizedHOGHists.append(normalizedHOGHists[z][i][x])  
 
-    #fixedNormalizedHOGHists = hog(img) #ignoriri tole morm še pogledat kje se mi matka zajebe v hog.py
+    
     algoritmiCount += 1
     print("Obdelano HOG: " + str(algoritmiCount))
     #vrni fixedNormalizedHOGHists
@@ -111,6 +111,7 @@ while(True):
     inputUser = input("Write something: ")
     inputUser = inputUser.split()
     if("algoritmi" in inputUser):
+        '''
         algoritmiCount = 0
         algoritmiCount2 = 0
         dir = 'C:\\Users\\Luka\\Desktop\\FERI 2-letnik\Vaje\\2. semester\\Projekt\\Projekt\\projektORV\\dataset\\ucna'
@@ -125,19 +126,7 @@ while(True):
                     ucnaMnozicaObjektov.append(tempImageObject)
                 except:
                     print("Preskočena koruptirana slika")
-        dir = 'C:\\Users\\Luka\\Desktop\\FERI 2-letnik\Vaje\\2. semester\\Projekt\\Projekt\\projektORV\\dataset\\ucnaJaz'
-        for path in os.listdir(dir):
-            tempImageObject = imageObject()
-            if os.path.isfile(os.path.join(dir, path)):
-                test = os.path.join(dir, path)
-                try:
-                    tempImageObject.normalizedHist = hogIzvedi(test)
-                    tempImageObject.label = 1
-                    tempImageObject.lbpList = lbgIzvedi(test)
-                    ucnaMnozicaObjektov.append(tempImageObject)
-                except:
-                    print("Preskočena koruptirana slika")
-
+        '''
         svmModel.trainSVM(ucnaMnozicaObjektov)
         knnModel.trainKNN(ucnaMnozicaObjektov)
     elif("check" in inputUser):
