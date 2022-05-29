@@ -28,7 +28,7 @@ function Login(){
         if(data._id !== undefined){
             userContext.setUserContext(data);
             //console.log("data2",data);
-            window.location.href="/map";
+            window.location.href="/";
         } else {
             setUsername("");
             setPassword("");
@@ -38,7 +38,7 @@ function Login(){
     }
 
     return (
-        <div className="mx-auto pt-5 bg-light" style={{width: "500px"}}>
+        <div className="mt-5 mx-auto pt-5 bg-light" style={{width: "500px"}}>
         <Form onSubmit={Login}>
             <h1>Prijava</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">

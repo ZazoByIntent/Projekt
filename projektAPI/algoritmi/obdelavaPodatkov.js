@@ -65,7 +65,7 @@ module.exports = {
                 console.log("DegreesZ: ",degreesZ);
                 console.log("Rotacija - Koncna: ",end_result.rotacija);*/
 
-            if(timeDiff > 5000)
+            if(timeDiff > 10000)
             {
                 // Če je časovna razlika med posnetimi podatki večja od 5 sekund, obdelavo zavržemo(ni natančnih izračunov hitrosti)
                 end_result = null;
