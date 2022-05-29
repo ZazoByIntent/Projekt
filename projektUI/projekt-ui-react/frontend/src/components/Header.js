@@ -5,7 +5,22 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
-function Header(props) {
+
+function Header(props) {   
+
+    const userContext = useContext(UserContext); 
+
+
+    function Filter() {
+        console.log("filter");
+        userContext.setFilter(true);
+    }
+    
+    function Remove() {
+        console.log("remove");
+        userContext.setFilter(false);
+    }
+
     return (
         <header>
             <Navbar bg="dark" expand="lg" variant="dark">
@@ -19,6 +34,8 @@ function Header(props) {
                                     context.user ?
                                         <>
                                             <Nav.Link href="/logout">Logout</Nav.Link>
+                                            <Nav.Link onClick={() => Filter()}>Filter my data</Nav.Link>
+                                            <Nav.Link onClick={() => Remove()}>Remove filter</Nav.Link>
                                         </>
                                     :
                                         <>

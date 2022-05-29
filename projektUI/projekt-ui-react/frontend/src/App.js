@@ -10,16 +10,23 @@ import Main from "./components/Main";
 
 function App() {
   const [user, setUser] = useState(localStorage.user ? JSON.parse(localStorage.user) : null);
+  const [filter, setFilter] = useState(localStorage.filter ? localStorage.filter : false);
   const updateUserData = (userInfo) => {
     localStorage.setItem("user", JSON.stringify(userInfo));
     setUser(userInfo);
+  }
+  const updateFilterData = (filterInfo) => {
+    localStorage.setItem("filter", JSON.stringify(filterInfo));
+    setFilter(filterInfo);
   }
 
   return (
     <BrowserRouter>
       <UserContext.Provider value={{
         user: user,
-        setUserContext: updateUserData
+        setUserContext: updateUserData,
+        filter: filter,
+        setFilter: updateFilterData
       }}>
         <div className="App">
           <Header title="My application"></Header>

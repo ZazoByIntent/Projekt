@@ -7,6 +7,7 @@ function Logout(){
     useEffect(function(){
         const logout = async function(){
             userContext.setUserContext(null);
+            userContext.setFilter(false);
             const res = await fetch("http://localhost:3001/user/logout");
         }
         logout();
