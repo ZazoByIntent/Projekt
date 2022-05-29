@@ -1,4 +1,6 @@
 var UserModel = require('../models/userModel.js');
+var orvAlgoritmi = require('../algoritmi/orvAlgoritmi.js');
+const { racunanjeZnacilk } = require('../algoritmi/orvAlgoritmi.js');
 
 /**
  * userController.js
@@ -81,6 +83,13 @@ module.exports = {
         });
     },
 
+    face_recog: function(req, res, next){
+        const file = req.file;
+        const path = file["path"];
+        // console.log("New login image is located at: " + path);
+        orvAlgoritmi.racunanjeZnacilk(req, res, path)
+    },
+
     /**
      * userController.update()
      */
@@ -121,6 +130,19 @@ module.exports = {
     /**
      * userController.remove()
      */
+    logout: function(req, res, next){
+        if(req.session){
+            req.session.destroy(function(err){
+                if(err){
+                    return next(err);
+                } else{
+                    //return res.redirect('/');
+                    return res.status(201).json({});
+                }
+            });
+        }
+    },
+
     remove: function (req, res) {
         var id = req.params.id;
 

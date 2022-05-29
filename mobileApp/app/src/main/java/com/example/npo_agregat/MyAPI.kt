@@ -21,6 +21,13 @@ interface MyAPI {
         @Part("user_id") user_id : RequestBody
     ): Call<ResponseBody>
 
+    @Multipart
+    @POST("/face_recog")
+    fun faceRecog(
+        @Part image : MultipartBody.Part,
+        @Part("myFile") name : RequestBody
+    ): Call<ResponseBody>
+
     companion object {
         operator fun invoke(): MyAPI {
             return Retrofit.Builder()

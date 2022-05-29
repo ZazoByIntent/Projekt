@@ -22,6 +22,7 @@ import android.net.Uri
 import android.provider.MediaStore.MediaColumns
 import android.provider.OpenableColumns
 import androidx.core.app.ActivityCompat.getCodeCacheDir
+import androidx.fragment.app.Fragment
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -33,11 +34,10 @@ import java.io.FileOutputStream
 import javax.security.auth.callback.Callback
 
 
-class SettingsFragment : DialogFragment() {
+class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     lateinit var app:MyApplication
     private val binding get() = _binding!!
-    private val client = OkHttpClient()
     var selectedImage : Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,14 +54,14 @@ class SettingsFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).supportActionBar?.title = "Login"
+        (activity as AppCompatActivity).supportActionBar?.title = "Settings"
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener() {
+        binding.btnChoose.setOnClickListener() {
             openImageChooser()
         }
-        binding.button4.setOnClickListener{
+        binding.btnUpload.setOnClickListener{
             uploadImage()
-            (activity as MainActivity?)!!.closeSettingsFragment()
+            activity!!.onBackPressed()
         }
     }
 
@@ -80,7 +80,6 @@ class SettingsFragment : DialogFragment() {
             when(requestCode){
                 100 -> {
                     selectedImage = data?.data
-
                 }
             }
         }
@@ -89,7 +88,7 @@ class SettingsFragment : DialogFragment() {
     private fun uploadImage() {
         if(selectedImage == null){
             Toast.makeText(context, "Select image first!", Toast.LENGTH_LONG).show()
-            return;
+            return
         }
 
         val parcelFileDescriptor = context!!.contentResolver.openFileDescriptor(selectedImage!!, "r", null) ?: return

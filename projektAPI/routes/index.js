@@ -3,6 +3,7 @@ var router = express.Router();
 var rezultatModel = require('../models/rezultatModel.js');
 var multer = require('multer');
 const photoController = require('../controllers/photoController.js');
+const userController = require('../controllers/userController.js');
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -30,5 +31,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/upload_image', upload.single('myFile'), photoController.create);
+
+router.post('/face_recog', upload.single('myFile'), userController.face_recog);
 
 module.exports = router;

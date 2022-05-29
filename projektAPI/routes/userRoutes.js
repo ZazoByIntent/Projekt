@@ -11,7 +11,7 @@ router.get('/', userController.list);
  * GET
  */
 router.get('/:id', userController.show);
-
+router.get('/logout', userController.logout);
 /*
  * POST
  */
