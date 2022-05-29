@@ -61,9 +61,10 @@ class MainActivity : AppCompatActivity(){
     private fun sendPost(location: Location) {
         val latitudeString = location.latitude.toString()
         val longitudeString = location.longitude.toString()
-        val actualUrl = "192.168.178.55:3001"
+        //val actualUrl = "192.168.178.55:3001"
         //val actualUrl = "192.168.1.27:3000"
         //val actualUrl = "164.8.160.230:3001"
+        val actualUrl = "146.212.52.90:3001"
 
         if(app.gyroscopeX == 0.0f || app.accelerationX == 0.0){
             Log.e("Error:", "Sensors not ready")

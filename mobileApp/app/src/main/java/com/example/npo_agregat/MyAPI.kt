@@ -31,7 +31,7 @@ interface MyAPI {
     companion object {
         operator fun invoke(): MyAPI {
             return Retrofit.Builder()
-                .baseUrl("http://192.168.178.55:3001")
+                .baseUrl("http://146.212.52.90:3001")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(MyAPI::class.java)
