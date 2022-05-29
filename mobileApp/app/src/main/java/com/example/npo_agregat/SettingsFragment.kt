@@ -109,7 +109,7 @@ class SettingsFragment : Fragment() {
         ).enqueue(object : retrofit2.Callback<ResponseBody> {
             override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
                 if(t.message != null)
-                    Toast.makeText(context!!, t.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
@@ -117,7 +117,7 @@ class SettingsFragment : Fragment() {
                 response: retrofit2.Response<ResponseBody>
             ) {
                 response.body()?.let {
-                    Toast.makeText(context!!, "Success", Toast.LENGTH_LONG).show()
+                    // Success
                 }
             }
         })

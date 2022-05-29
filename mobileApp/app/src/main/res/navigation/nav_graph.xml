@@ -14,11 +14,6 @@
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
-    <dialog
-        android:id="@+id/settingsFragment"
-        android:name="com.example.npo_agregat.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.npo_agregat.LoginFragment"
@@ -34,4 +29,9 @@
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
     <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.npo_agregat.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
