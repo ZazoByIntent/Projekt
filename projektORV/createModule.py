@@ -146,23 +146,15 @@ def pripraviUcnePodatkePoslano(path):
     ucnaMnozicaObjektovPoslano.append(tempImageObjectPoslano)
 
 
-
-
-x = {
-  "path": "C:\\Users\\Luka\\Desktop\\FERI 2-letnik\\Vaje\\2. semester\\Projekt\\Projekt\\projektAPI\\uploads\\myFile-1653835993963"
-}
-
-photos = json.loads(x)
-#print(str("Login file: " + sys.argv[1] + " registration files: "))
-
 pripraviUcnePodatkeOstalo()
 
-
-
+photos = json.loads(sys.argv[2])
 
 for photo in photos:
-    pripraviUcnePodatkePoslano(photo['path'])
+    pripraviUcnePodatkePoslano(str(photo['path']))
+
 
 svmModel.trainSVM(ucnaMnozicaObjektov, ucnaMnozicaObjektovPoslano)
-print("Nibba we made it")
+
+print("Narejeno")
 #knnModel.trainKNN(ucnaMnozicaObjektov)
