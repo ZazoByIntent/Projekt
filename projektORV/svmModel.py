@@ -86,7 +86,7 @@ def trainSVM(imageObjectList, imageObjectListPoslano):
     print(samples)
 
     svm.train(samples, cv2.ml.ROW_SAMPLE, labels)
-    svm.save('svm_data.dat')
+    svm.save('D:\\Projects\\Projekt\\projektORV\\svm_data.dat')
     print("Svm done")
 
 def checkSVM(sampleMainObjectList):

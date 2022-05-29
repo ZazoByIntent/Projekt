@@ -116,13 +116,13 @@ def lbgIzvedi(dir):
 def pripraviUcnePodatkeOstalo():
     labelsMain = []
 
-    df = pd.read_csv('data-labels.csv')
+    df = pd.read_csv('D:\\Projects\\Projekt\\projektORV\\data-labels.csv')
     labels = df.to_numpy()
     for i in range(0, len(labels), 1):
         labelsMain.append(labels[i][0])
     labels = numpy.array(labelsMain)
 
-    df = pd.read_csv('data-samples.csv')
+    df = pd.read_csv('D:\\Projects\\Projekt\\projektORV\\data-samples.csv')
     samples = df.to_numpy()
     samples = numpy.float32(samples)
 
@@ -148,7 +148,7 @@ def pripraviUcnePodatkePoslano(path):
 
 pripraviUcnePodatkeOstalo()
 
-photos = json.loads(sys.argv[2])
+photos = json.loads(sys.argv[1])
 
 for photo in photos:
     pripraviUcnePodatkePoslano(str(photo['path']))

@@ -58,14 +58,13 @@ module.exports = {
                 const photosList = JSON.stringify(photos);
                 const createModuleProcess = spawn('py', [processPath, photosList]);
                 
-                /* 
-                pythonProcess.stderr.on('data', (data) => {
-                    // return res.json("Error: " + data);
-                    return res.status(500).json({
-                        message: 'Error when authenticating user',
-                        error: data
-                    });
-                });*/
+                createModuleProcess.stdout.on('data', (data) => {
+                    console.log(data.toString());
+                });
+
+                createModuleProcess.stderr.on('data', (data) => {
+                    console.log(data.toString());
+                });
             }
         });
     }
