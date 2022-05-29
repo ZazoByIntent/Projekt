@@ -5,18 +5,25 @@ var Schema   = mongoose.Schema;
 var userSchema = new Schema({
 	'username' : String,
 	'password' : String,
-	'email' : String
+	'email' : String,
+	'tfa' : Boolean
 });
 
 userSchema.pre('save', function(next){
 	var user = this;
-	bcrypt.hash(user.password, 10, function(err, hash){
-		if(err){
-			return next(err);
-		}
-		user.password = hash;
+	if(user.password.length < 15)
+	{
+		bcrypt.hash(user.password, 10, function(err, hash){
+			if(err){
+				return next(err);
+			}
+			user.password = hash;
+			next();
+		});
+	}
+	else {
 		next();
-	});
+	}
 });
 
 userSchema.statics.authenticate = function(username, password, callback){
@@ -30,6 +37,7 @@ userSchema.statics.authenticate = function(username, password, callback){
 			err.status = 401;
 			return callback(err);
 		} 
+
 
 		bcrypt.compare(password, user.password, function(err, result){
 			if(result === true){

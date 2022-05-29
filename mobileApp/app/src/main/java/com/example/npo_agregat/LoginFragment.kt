@@ -36,7 +36,6 @@ class LoginFragment : Fragment() {
     lateinit var app:MyApplication
     private val binding get() = _binding!!
     private val client = OkHttpClient()
-    var selectedImage : Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,90 +57,11 @@ class LoginFragment : Fragment() {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
             sendPost(username, password)
-            activity!!.onBackPressed()
         }
         binding.btnRegister.setOnClickListener() {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
-        binding.btnFaceRecog.setOnClickListener {
-            val fileName : String = "new-photo.jpg"
-            val values = ContentValues()
-            values.put(MediaStore.Images.Media.TITLE, fileName)
-            selectedImage = context!!.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-
-            val intent_gallery = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-            intent_gallery.putExtra(MediaStore.EXTRA_OUTPUT, selectedImage)
-            startActivityForResult(intent_gallery, 100)
-        }
-        binding.btnSendFaceId.setOnClickListener {
-            uploadImage()
-        }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK) {
-            when(requestCode){
-                100 -> {
-                    print("Success")
-                }
-            }
-        }
-        else {
-            selectedImage = null
-        }
-    }
-
-    private fun uploadImage() {
-        if(selectedImage == null){
-            Toast.makeText(context, "Incorrect image selection", Toast.LENGTH_LONG).show()
-            return;
-        }
-
-        val parcelFileDescriptor = context!!.contentResolver.openFileDescriptor(selectedImage!!, "r", null) ?: return
-        val file = File(context!!.cacheDir, context!!.contentResolver.getFileName(selectedImage!!))
-        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-        val outputStream = FileOutputStream(file)
-        inputStream.copyTo(outputStream)
-
-        val reqBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-        val mpbody : MultipartBody.Part = MultipartBody.Part.createFormData("myFile", file.name, reqBody)
-        val rbid : RequestBody = "myFile".toRequestBody("text/plain".toMediaTypeOrNull())
-
-        MyAPI().faceRecog(
-            mpbody,
-            rbid
-        ).enqueue(object : retrofit2.Callback<ResponseBody> {
-            override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
-                if(t.message != null)
-                    Toast.makeText(context!!, t.message, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onResponse(
-                call: retrofit2.Call<ResponseBody>,
-                response: retrofit2.Response<ResponseBody>
-            ) {
-                response.body()?.let {
-                    Toast.makeText(context!!, it.string(), Toast.LENGTH_LONG).show()
-                    app.loggedIn = true
-                    activity!!.onBackPressed()
-                }
-            }
-        })
-    }
-
-    fun ContentResolver.getFileName(uri: Uri): String {
-        var name = ""
-        val returnCursor = this.query(uri, null, null, null, null)
-        if (returnCursor != null) {
-            val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            returnCursor.moveToFirst()
-            name = returnCursor.getString(nameIndex)
-            returnCursor.close()
-        }
-        return name
-    }
-
 
     private fun sendPost(username: String, password: String) {
         //val actualUrl = "164.8.160.230:3001"
@@ -177,6 +97,13 @@ class LoginFragment : Fragment() {
                         app.user_id = json.getString("_id")
                         app.loggedIn = true
                         app.user = username
+                        print(json)
+                        if(json.getString("tfa") == "true")
+                        {
+                            findNavController().navigate(R.id.action_loginFragment_to_tfaFragment)
+                        } else {
+                            activity!!.onBackPressed()
+                        }
                     } else {
                         Toast.makeText(context!!, "Invalid credentials", Toast.LENGTH_LONG).show()
                     }
@@ -187,7 +114,6 @@ class LoginFragment : Fragment() {
                 Toast.makeText(context!!,ex.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     override fun onDestroyView() {

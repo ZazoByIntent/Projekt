@@ -25,7 +25,8 @@ interface MyAPI {
     @POST("/face_recog")
     fun faceRecog(
         @Part image : MultipartBody.Part,
-        @Part("myFile") name : RequestBody
+        @Part("myFile") name : RequestBody,
+        @Part("user_id") user_id : RequestBody
     ): Call<ResponseBody>
 
     companion object {

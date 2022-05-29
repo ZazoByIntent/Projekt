@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_tfaFragment"
+            app:destination="@id/tfaFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -34,4 +37,13 @@
         android:name="com.example.npo_agregat.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/tfaFragment"
+        android:name="com.example.npo_agregat.TfaFragment"
+        android:label="fragment_tfa"
+        tools:layout="@layout/fragment_tfa" >
+        <action
+            android:id="@+id/action_tfaFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

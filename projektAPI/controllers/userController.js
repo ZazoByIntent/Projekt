@@ -56,7 +56,8 @@ module.exports = {
         var user = new UserModel({
 			username : req.body.username,
 			password : req.body.password,
-			email : req.body.email
+			email : req.body.email,
+            tfa : false
         });
 
         user.save(function (err, user) {
@@ -86,6 +87,7 @@ module.exports = {
     face_recog: function(req, res, next){
         const file = req.file;
         const path = file["path"];
+        const user_id = req.body.user_id;
         // console.log("New login image is located at: " + path);
         orvAlgoritmi.racunanjeZnacilk(req, res, path)
     },

@@ -1,4 +1,5 @@
 var PhotoModel = require('../models/photoModel.js');
+var UserModel = require('../models/userModel.js');
 
 
 /**
@@ -56,20 +57,48 @@ module.exports = {
         const path = file["path"];
         const user_id = req.body.user_id;
       
-        var photo = new PhotoModel({
-			path : path,
-			user_id : user_id
-        });
-
-        photo.save(function (err, photo) {
+        UserModel.findOne({_id: user_id}, function (err, user) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when creating photo',
+                    message: 'Error when getting user.',
                     error: err
                 });
             }
 
-            return res.status(201).json(photo);
+            if (!user) {
+                return res.status(404).json({
+                    message: 'No such user'
+                });
+            }
+
+            user.username = req.body.username ? req.body.username : user.username;
+			user.password = req.body.password ? req.body.password : user.password;
+			user.email = req.body.email ? req.body.email : user.email;
+			user.tfa = true;
+            
+            user.save(function (err, user) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating user.',
+                        error: err
+                    });
+                }
+            });
+
+            var photo = new PhotoModel({
+                path : path,
+                user_id : user_id
+            });
+    
+            photo.save(function (err, photo) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when creating photo',
+                        error: err
+                    });
+                }
+                return res.status(201).json(photo);
+            });
         });
     }, 
     
