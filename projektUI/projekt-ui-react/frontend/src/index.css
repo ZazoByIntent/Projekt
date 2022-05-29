@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+body {
+  margin: 0;
+  background-color:  	 	 	#FAF9F6;
+
+  font-family: 'Poppins', sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.chart {
+  height: 25%;
+  width: 30%;
+  position: absolute;
+  z-index: 2;
+  bottom: 25%;
+  left: 2%;
+  opacity: 0.96;
+}
+
+.my-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
