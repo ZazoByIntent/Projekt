@@ -11,17 +11,15 @@ module.exports = {
             }
             else{
                 //photos list vse slike, path slika za authentication
-                console.log(user_id);
+                console.log("Authenticating user:" + user_id);
                 const { spawn } = require("child_process");
                 processPath = '../projektORV/testModule.py';
                 const testModuleProcess = spawn('py', [processPath , path]);
                 
                 testModuleProcess.stdout.on('data', (data) => {
-                    console.log(data.toString().trim());
-                    return res.status(201).json("Auth");
-                    /*
-                    if(data.toString().trim() !== "auth"){
-                        return res.status(201).json("Auth"); //tule vrnes da je good
+                    if(data.toString().trim() === "1"){
+                        console.log(data.toString());
+                        return res.status(201).json("Authenticated");
                     }
                     else{
                         console.log(data.toString());
@@ -29,7 +27,7 @@ module.exports = {
                             message: 'Error when authenticating user',
                             error: data
                         });
-                    }*/
+                    }
                 })
 
 

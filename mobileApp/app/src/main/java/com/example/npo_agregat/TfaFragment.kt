@@ -1,5 +1,6 @@
 package com.example.npo_agregat
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -15,7 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.npo_agregat.databinding.FragmentTfaBinding
 import okhttp3.OkHttpClient
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.ContentResolver
+import android.content.Context
 import android.location.Location
 import android.provider.OpenableColumns
 import android.security.keystore.UserNotAuthenticatedException
@@ -32,6 +35,18 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.lang.Exception
+import androidx.core.app.ActivityCompat
+
+import android.content.pm.PackageManager
+
+import androidx.core.content.ContextCompat
+
+import android.os.Build
+import android.content.DialogInterface
+
+
+
+
 
 class TfaFragment : Fragment() {
     private var _binding: FragmentTfaBinding? = null
@@ -40,6 +55,62 @@ class TfaFragment : Fragment() {
     private val client = OkHttpClient()
     var selectedImage : Uri? = null
 
+    val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
+
+    fun checkPermissionREAD_EXTERNAL_STORAGE(
+        context: Context
+    ): Boolean {
+        val currentAPIVersion = Build.VERSION.SDK_INT
+        return if (currentAPIVersion >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        (context as Activity?)!!,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                ) {
+                    showDialog(
+                        "External storage", context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                } else {
+                    ActivityCompat
+                        .requestPermissions(
+                            (context as Activity?)!!,
+                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+                        )
+                }
+                false
+            } else {
+                true
+            }
+        } else {
+            true
+        }
+    }
+
+    fun showDialog(
+        msg: String, context: Context?,
+        permission: String
+    ) {
+        val alertBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
+        alertBuilder.setCancelable(true)
+        alertBuilder.setTitle("Permission necessary")
+        alertBuilder.setMessage("$msg permission is necessary")
+        alertBuilder.setPositiveButton(android.R.string.yes,
+            DialogInterface.OnClickListener { dialog, which ->
+                ActivityCompat.requestPermissions(
+                    (context as Activity?)!!, arrayOf(permission),
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+                )
+            })
+        val alert: AlertDialog = alertBuilder.create()
+        alert.show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +134,34 @@ class TfaFragment : Fragment() {
             values.put(MediaStore.Images.Media.TITLE, fileName)
             selectedImage = context!!.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
 
-            val intent_gallery = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent_gallery.putExtra(MediaStore.EXTRA_OUTPUT, selectedImage)
-            startActivityForResult(intent_gallery, 100)
+            if (checkPermissionREAD_EXTERNAL_STORAGE(context!!)) {
+                val intent_gallery = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                intent_gallery.putExtra(MediaStore.EXTRA_OUTPUT, selectedImage)
+                startActivityForResult(intent_gallery, 100)
+            }
         }
         binding.btnSendFaceId.setOnClickListener {
             uploadImage()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                Toast.makeText(
+                    context!!, "Permission denied",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> super.onRequestPermissionsResult(
+                requestCode, permissions!!,
+                grantResults
+            )
         }
     }
 
@@ -110,7 +203,7 @@ class TfaFragment : Fragment() {
         ).enqueue(object : retrofit2.Callback<ResponseBody> {
             override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
                 if(t.message != null)
-                    Toast.makeText(context!!, t.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context!!, "Not recognized", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
@@ -118,9 +211,14 @@ class TfaFragment : Fragment() {
                 response: retrofit2.Response<ResponseBody>
             ) {
                 response.body()?.let {
-                    Toast.makeText(context!!, it.string(), Toast.LENGTH_LONG).show()
-                    app.loggedIn = true
-                    findNavController().navigate(R.id.action_tfaFragment_to_mainFragment)
+                    if("Authenticated" in it.string())
+                    {
+                        app.loggedIn = true
+                        findNavController().navigate(R.id.action_tfaFragment_to_mainFragment)
+                    }
+                    else {
+                        Toast.makeText(context!!, "Not recognized", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         })
