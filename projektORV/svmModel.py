@@ -82,8 +82,6 @@ def trainSVM(imageObjectList, imageObjectListPoslano):
     labels = numpy.array(labelsMain)
     samples = numpy.float32(samplesMain)
 
-    print(labels)
-    print(samples)
 
     svm.train(samples, cv2.ml.ROW_SAMPLE, labels)
     svm.save('D:\\Projects\\Projekt\\projektORV\\svm_data.dat')
