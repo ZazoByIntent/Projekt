@@ -91,7 +91,6 @@ def hogIzvedi(dir):
 
     
     algoritmiCount += 1
-    print("Obdelano HOG: " + str(algoritmiCount))
     #vrni fixedNormalizedHOGHists
     return fixedNormalizedHOGHists
 
@@ -108,7 +107,6 @@ def lbgIzvedi(dir):
             newImageFixed.append(newImage[i][z])
     
     algoritmiCount2 += 1
-    print("Obdelano LBG: " + str(algoritmiCount2))
 
     return newImageFixed
 
@@ -156,5 +154,4 @@ for photo in photos:
 
 svmModel.trainSVM(ucnaMnozicaObjektov, ucnaMnozicaObjektovPoslano)
 
-print("Narejeno")
 #knnModel.trainKNN(ucnaMnozicaObjektov)
