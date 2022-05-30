@@ -42,11 +42,50 @@ const Map = () => {
             context.user && 
             context.filter ?
             (rezultati.map((rezultat, index) => {
-              if(rezultati[index]["user_id"] == context.user)
+              if(rezultati[index]["user_id"] == context.user._id)
               {
-                if(rezultati[index]["stanje_ceste"] >= 3){
-                  if(typeof rezultati[index + 1] !== "undefined")
+                if(typeof rezultati[index + 1] !== "undefined")
+                {
+                  var timeDiff = (new Date(rezultati[index+1].datum).getTime() - new Date(rezultati[index].datum).getTime());
+                  if(timeDiff < 45000)
                   {
+                    if(rezultati[index]["stanje_ceste"] >= 3){
+                      if(rezultati[index + 1].user_id == rezultati[index].user_id){
+                        return <Polyline key={index} color="red" positions= {[
+                          [rezultati[index]["latitude"], rezultati[index]["longitude"]],
+                          [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
+                        ]}/>
+                      }
+                    }
+                    else if(rezultati[index]["stanje_ceste"] >= 2 && rezultati[index]["stanje_ceste"] < 3){
+                        if(rezultati[index + 1].user_id == rezultati[index].user_id){
+                          return <Polyline key={index} color="orange" positions= {[
+                            [rezultati[index]["latitude"], rezultati[index]["longitude"]],
+                            [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
+                          ]}/>
+                        }
+                    }
+                    else{
+                        if(rezultati[index + 1].user_id == rezultati[index].user_id){
+                          return <Polyline key={index} color="green" positions= {[
+                            [rezultati[index]["latitude"], rezultati[index]["longitude"]],
+                            [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
+                          ]}/>
+                      }
+                    }
+                    }
+                }
+              }
+              //<Marker position={[rezultat["latitude"], rezultat["longitude"]]} draggalbe={true} animate={true}></Marker>
+            }))
+            :
+            (rezultati.map((rezultat, index) => {
+              if(typeof rezultati[index + 1] !== "undefined")
+              {
+                var timeDiff = (new Date(rezultati[index+1].datum).getTime() - new Date(rezultati[index].datum).getTime());
+                if(timeDiff < 45000)
+                {
+                  if(rezultati[index]["stanje_ceste"] >= 3){
                     if(rezultati[index + 1].user_id == rezultati[index].user_id){
                       return <Polyline key={index} color="red" positions= {[
                         [rezultati[index]["latitude"], rezultati[index]["longitude"]],
@@ -54,66 +93,23 @@ const Map = () => {
                       ]}/>
                     }
                   }
-                }
-                else if(rezultati[index]["stanje_ceste"] >= 2 && rezultati[index]["stanje_ceste"] < 3){
-                  if(typeof rezultati[index + 1] !== "undefined")
-                  {
-                    if(rezultati[index + 1].user_id == rezultati[index].user_id){
-                      return <Polyline key={index} color="orange" positions= {[
-                        [rezultati[index]["latitude"], rezultati[index]["longitude"]],
-                        [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
-                      ]}/>
+                  else if(rezultati[index]["stanje_ceste"] >= 2 && rezultati[index]["stanje_ceste"] < 3){
+                      if(rezultati[index + 1].user_id == rezultati[index].user_id){
+                        return <Polyline key={index} color="orange" positions= {[
+                          [rezultati[index]["latitude"], rezultati[index]["longitude"]],
+                          [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
+                        ]}/>
+                      }
+                  }
+                  else{
+                      if(rezultati[index + 1].user_id == rezultati[index].user_id){
+                        return <Polyline key={index} color="green" positions= {[
+                          [rezultati[index]["latitude"], rezultati[index]["longitude"]],
+                          [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
+                        ]}/>
                     }
                   }
-                }
-                else{
-                  if(typeof rezultati[index + 1] !== "undefined")
-                  {
-                    if(rezultati[index + 1].user_id == rezultati[index].user_id){
-                      return <Polyline key={index} color="green" positions= {[
-                        [rezultati[index]["latitude"], rezultati[index]["longitude"]],
-                        [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
-                      ]}/>
-                    }
                   }
-                }
-              }
-              //<Marker position={[rezultat["latitude"], rezultat["longitude"]]} draggalbe={true} animate={true}></Marker>
-            }))
-            :
-            (rezultati.map((rezultat, index) => {
-              if(rezultati[index]["stanje_ceste"] >= 3){
-                if(typeof rezultati[index + 1] !== "undefined")
-                {
-                  if(rezultati[index + 1].user_id == rezultati[index].user_id){
-                    return <Polyline key={index} color="red" positions= {[
-                      [rezultati[index]["latitude"], rezultati[index]["longitude"]],
-                      [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
-                    ]}/>
-                  }
-                }
-              }
-              else if(rezultati[index]["stanje_ceste"] >= 2 && rezultati[index]["stanje_ceste"] < 3){
-                if(typeof rezultati[index + 1] !== "undefined")
-                {
-                  if(rezultati[index + 1].user_id == rezultati[index].user_id){
-                    return <Polyline key={index} color="orange" positions= {[
-                      [rezultati[index]["latitude"], rezultati[index]["longitude"]],
-                      [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
-                    ]}/>
-                  }
-                }
-              }
-              else{
-                if(typeof rezultati[index + 1] !== "undefined")
-                {
-                  if(rezultati[index + 1].user_id == rezultati[index].user_id){
-                    return <Polyline key={index} color="green" positions= {[
-                      [rezultati[index]["latitude"], rezultati[index]["longitude"]],
-                      [rezultati[index + 1]["latitude"], rezultati[index + 1]["longitude"]],
-                    ]}/>
-                  }
-                }
               }
               //<Marker position={[rezultat["latitude"], rezultat["longitude"]]} draggalbe={true} animate={true}></Marker>
             }))
