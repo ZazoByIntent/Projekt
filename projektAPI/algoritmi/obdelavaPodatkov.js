@@ -149,7 +149,7 @@ module.exports = {
                 else { //zavrzemo saj se predmet ni premikal oz. je biu premajhen pospesek
                     end_result = null;
                     return res.status(500).json({
-                        message: 'Error when creating obdelani_podatki2',
+                        message: 'Error when creating rezultat3',
                         error: err
                     });
                 }

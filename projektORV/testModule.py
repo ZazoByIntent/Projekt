@@ -115,8 +115,8 @@ def lbgIzvedi(dir):
 
     return newImageFixed
 
-photo = json.loads(sys.argv[1])
+photo = str(sys.argv[1])
 
-pripraviTestnePodatkePoslano(str(photo['path']))
+pripraviTestnePodatkePoslano(photo)
 
 svmModel.checkSVM(testnaMnozicaObjektov)

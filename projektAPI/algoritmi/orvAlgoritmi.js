@@ -15,10 +15,11 @@ module.exports = {
                 const { spawn } = require("child_process");
                 processPath = '../projektORV/testModule.py';
                 const testModuleProcess = spawn('py', [processPath , path]);
-                /*
+                
                 testModuleProcess.stdout.on('data', (data) => {
-                    //return res.json("stdOut: " + data);
-                    //preveri 
+                    console.log(data.toString().trim());
+                    return res.status(201).json("Auth");
+                    /*
                     if(data.toString().trim() !== "auth"){
                         return res.status(201).json("Auth"); //tule vrnes da je good
                     }
@@ -28,17 +29,15 @@ module.exports = {
                             message: 'Error when authenticating user',
                             error: data
                         });
-                    }
-                })*/
-                return res.status(201).json("Auth");
-                /* 
-                pythonProcess.stderr.on('data', (data) => {
+                    }*/
+                })
+
+
+                
+                testModuleProcess.stderr.on('data', (data) => {
                     // return res.json("Error: " + data);
-                    return res.status(500).json({
-                        message: 'Error when authenticating user',
-                        error: data
-                    });
-                });*/
+                    console.log(data.toString().trim());
+                });/* */
             }
         });
     },
