@@ -87,14 +87,10 @@ def trainSVM(imageObjectList, imageObjectListPoslano):
 
     svm.train(samples, cv2.ml.ROW_SAMPLE, labels)
     svm.save('D:\\Projects\\Projekt\\projektORV\\svm_data.dat')
-    print("Svm done")
 
 def checkSVM(sampleMainObjectList):
-    svm = cv2.ml.SVM_load('svm_data.dat')
-    countCat = 0
-    pravilnoCat = 0
-    countDog = 0
-    pravilnoDog = 0
+    svm = cv2.ml.SVM_load('D:\\Projects\\Projekt\\projektORV\\svm_data.dat')
+    pravilnaSlika = 0
     for i in range(0, len(sampleMainObjectList), 1):
         tempList = []
         for z in range(0, len(sampleMainObjectList[i].normalizedHist),1):
@@ -104,19 +100,9 @@ def checkSVM(sampleMainObjectList):
         sample = numpy.float32(tempList)
         resp = svm.predict(sample.reshape(1, -1))
 
-        if(sampleMainObjectList[i].label == 1):
-            countDog += 1
-
         if(sampleMainObjectList[i].label == int(resp[1].ravel()[0])):
             if(sampleMainObjectList[i].label == 1):
-                pravilnoDog += 1
-        #print(resp[1])
-        #print(str(sampleMainObjectList[i].label) + " " + str(resp[1].ravel()[0]))
-        #print("This object is " + str(sampleMainObjectList[i].label) + " and the prediction was " + str(resp[1].ravel()[0]))
+                pravilnaSlika = 1
 
-    procentDog = (float(pravilnoDog) / float(countDog)) * 100
-    print("SVM Model")
-    print("Procent pravilen dog: " + str(procentDog) + "%")
-    print("Stevilo pravilno: " + str(pravilnoDog))
-    print("Stevilo testnih: " + str(countDog))
+    print(str(pravilnaSlika))
     return None

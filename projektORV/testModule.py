@@ -89,6 +89,15 @@ def hogIzvedi(dir):
     #vrni fixedNormalizedHOGHists
     return fixedNormalizedHOGHists
 
+def pripraviTestnePodatkePoslano(path):
+    tempImageObject = imageObject()
+
+    tempImageObject.normalizedHist = hogIzvedi(path)
+    tempImageObject.lbpList = lbgIzvedi(path)
+    tempImageObject.label = 1
+
+    testnaMnozicaObjektov.append(tempImageObject)
+
 def lbgIzvedi(dir):
     global algoritmiCount2
     img = resize(color.rgb2gray(io.imread(dir)), (128, 64))
@@ -106,8 +115,8 @@ def lbgIzvedi(dir):
 
     return newImageFixed
 
-photos = json.loads(sys.argv[2])
-print(str("Login file: " + sys.argv[1] + " registration files: "))
+photo = json.loads(sys.argv[1])
 
-for photo in photos:
-    print(str(photo['path']))
+pripraviTestnePodatkePoslano(str(photo['path']))
+
+svmModel.checkSVM(testnaMnozicaObjektov)
