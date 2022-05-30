@@ -102,7 +102,7 @@ class LoginFragment : Fragment() {
                         {
                             findNavController().navigate(R.id.action_loginFragment_to_tfaFragment)
                         } else {
-                            activity!!.onBackPressed()
+                            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                         }
                     } else {
                         Toast.makeText(context!!, "Invalid credentials", Toast.LENGTH_LONG).show()
