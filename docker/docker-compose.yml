@@ -1,0 +1,10 @@
+version: '3'
+services:
+  projekt-ui:
+    image: "docker-ui"
+    ports:
+      - "3000:3000"
+  projekt-api:
+    image: "docker-api"
+    ports:
+      - "3001:3001"
