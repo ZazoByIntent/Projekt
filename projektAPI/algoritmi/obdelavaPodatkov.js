@@ -17,20 +17,20 @@ module.exports = {
                 });
             }
 
+
             var first = neobdelana_podatka[0]; // zadnji dobljen podatek
             var second = neobdelana_podatka[1]; // predzadnji dobljen podatek
-
 
             if(first == null || second == null){
                 end_result = null;
                 return res.status(500).json({
-                    message: 'Error when creating obdelani_podatki2',
+                    message: 'Error when creating obdelani_podatki: not enough data recorded',
                     error: err
                 });
-            } else if (first.user_id != second.user_id) {
+            } else if (first.user_id !== second.user_id) {
                 end_result = null;
                 return res.status(500).json({
-                    message: 'Error when creating obdelani_podatki2',
+                    message: 'Error when creating obdelani_podatki: data not recorded by the same user',
                     error: err
                 });
             }
@@ -45,6 +45,7 @@ module.exports = {
             });
             // https://code.tutsplus.com/tutorials/using-the-accelerometer-on-android--mobile-22125
             var timeDiff = (new Date(first.datum).getTime() - new Date(second.datum).getTime());
+            // Izračunamo pospesek premikanja naprave
             end_result.pospesek = Math.abs(first.x_pospesek + first.y_pospesek + first.z_pospesek - second.x_pospesek - second.y_pospesek - second.z_pospesek)/timeDiff * 10000;
 
             // Rotacija:
@@ -71,9 +72,9 @@ module.exports = {
             }
             end_result.rotacija = (degreesX+degreesY+degreesZ)/3;
 
-            if(timeDiff > 10000)
+            if(timeDiff > 7000)
             {
-                // Če je časovna razlika med posnetimi podatki večja od 10 sekund, obdelavo zavržemo(ni natančnih izračunov hitrosti)
+                // Če je časovna razlika med posnetimi podatki večja od 7 sekund, obdelavo zavržemo(ni natančnih izračunov hitrosti)
                 end_result = null;
                 return res.status(500).json({
                     message: 'Error: Too much time beetween recorded data ',
@@ -116,7 +117,7 @@ module.exports = {
                         message: 'Error when creating rezultat2',
                         error: err
                     });
-                } else if (first.user_id != second.user_id) {
+                } else if (first.user_id !== second.user_id) {
                     end_result = null;
                     return res.status(500).json({
                         message: 'Error when creating obdelani_podatki2',
@@ -134,28 +135,31 @@ module.exports = {
 
 
                 var timeDiff = (new Date(first.datum).getTime() - new Date(second.datum).getTime());
-                console.log(first.datum,second.datum);
-                // Dodaj preverjanje za rotacijo, popravi preverjanje pospeska
                 // https://hypertextbook.com/facts/2001/MeredithBarricella.shtml
-                // Neki normalen povprecni pospesek avta je med 3 in 4 m/s^2,
-                // tak da če predpostavimo, da je pospesek vecji od 3
+                // Neki normalen povprecni pospesek avta je med 2 in 4 m/s^2,
+                // tak da če predpostavimo, da je pospesek vecji od 2
+                // Zaradi drugih stavri v prometu, ki nam zmanjšujejo pospešek
+                // Krožišča, Semaforji, Prometna konica
                 if(Math.abs(first.pospesek) > 2){
-                    end_result.stanje_ceste += Math.abs(first.pospesek - second.pospesek);
-                    // Faktor za stanje ceste -> Za koliko se je zgodila rotacija glede na pretecen cas
+                    // Faktor za stanje ceste -> Za koliko se je zgodila rotacija glede na pretecen cas glede s pospeškom
                     // Vecja vrednost je -> slabsa je cesta ( Vecji je kot rotacije) ... manjsa je vrednost boljsa je cesta (manjsi je kot)
+                    end_result.stanje_ceste += Math.abs(first.pospesek - second.pospesek);
                     end_result.stanje_ceste += timeDiff/Math.abs(first.rotacija - second.rotacija);
-                    //console.log("timeDiff: ",timeDiff,"Rotacija -",first.rotacija-second.rotacija);
-                    if(end_result.stanje_ceste > 300) end_result.stanje_ceste = 5; // Tresljaj za manj kot 10°
-                    else if(end_result.stanje_ceste > 200) end_result.stanje_ceste = 4; // Tresljaj 10° < x < 20°
-                    else if(end_result.stanje_ceste > 100) end_result.stanje_ceste = 3; // Tresljaj 20° < x < 40°
-                    else if(end_result.stanje_ceste > 50) end_result.stanje_ceste = 2; // Tresljaj 40° < x < 80°
-                    else if(end_result.stanje_ceste > 25) end_result.stanje_ceste = 1; // Tresljaj za več kot 80°
+                    //  rdeča >= 3 --Slaba cesta
+                    // oranžna >= 2 <= 3 -- Majhen tresljaj
+                    // Zelean <2 -- Dobra cesta
+                    // Večji je koeficient
+                    if(end_result.stanje_ceste > 300) end_result.stanje_ceste = 5; // Močan tresljaj
+                    else if(end_result.stanje_ceste > 200) end_result.stanje_ceste = 4; // Normalen tresljaj
+                    else if(end_result.stanje_ceste > 100) end_result.stanje_ceste = 3; // Majhen tresljaj
+                    else if(end_result.stanje_ceste > 50) end_result.stanje_ceste = 2; // Zaznan nek tresljaj
+                    else if(end_result.stanje_ceste > 25) end_result.stanje_ceste = 1; // Minimalen tresljaj (Lahko vplivajo drugi dejavniki)
                     else end_result.stanje_ceste = 0;
                 }
                 else { //zavrzemo saj se predmet ni premikal oz. je biu premajhen pospesek
                     end_result = null;
                     return res.status(500).json({
-                        message: 'Error when creating rezultat3',
+                        message: 'Error when object not moving',
                         error: err
                     });
                 }
@@ -163,7 +167,7 @@ module.exports = {
                 end_result.save(function (err, rezultat) {
                     if (err) {
                         return res.status(500).json({
-                            message: 'Error when creating rezultat3',
+                            message: 'Error when creating rezultat',
                             error: err
                         });
                     }

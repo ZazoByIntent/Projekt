@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije">
+    <list default="true" id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="Preverjanje pravilnosti pridobljenih podatkov iz senzorja za rotacijo">
+      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/frontend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algoritmi/obdelavaPodatkov.js" beforeDir="false" afterPath="$PROJECT_DIR$/algoritmi/obdelavaPodatkov.js" afterDir="false" />
     </list>
@@ -36,7 +40,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -61,7 +65,7 @@
       <workItem from="1653778855621" duration="2487000" />
       <workItem from="1653904904816" duration="149000" />
       <workItem from="1654085504905" duration="653000" />
-      <workItem from="1654087771939" duration="917000" />
+      <workItem from="1654087771939" duration="2395000" />
     </task>
     <task id="LOCAL−00001" summary="Generiranje scrapper modela,Kontrolerja,Routov">
       <created>1652182363893</created>
@@ -81,7 +85,13 @@
       <option name="presentableId" value="LOCAL−00003" />
       <updated>1653345889174</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL−00004" summary="Preverjanje pravilnosti pridobljenih podatkov iz senzorja za rotacijo">
+      <created>1654090243106</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1654090243106</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,6 +113,7 @@
     <MESSAGE value="Generiranje scrapper modela,Kontrolerja,Routov" />
     <MESSAGE value="Dodano racunanje za rotacijo" />
     <MESSAGE value="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije" />
-    <option name="LAST_COMMIT_MESSAGE" value="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije" />
+    <MESSAGE value="Preverjanje pravilnosti pridobljenih podatkov iz senzorja za rotacijo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Preverjanje pravilnosti pridobljenih podatkov iz senzorja za rotacijo" />
   </component>
 </project>
