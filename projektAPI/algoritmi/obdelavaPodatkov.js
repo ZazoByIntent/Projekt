@@ -43,34 +43,40 @@ module.exports = {
                 user_id : first.user_id,
                 datum : new Date()
             });
-                console.log("CHECK");
             // https://code.tutsplus.com/tutorials/using-the-accelerometer-on-android--mobile-22125
             var timeDiff = (new Date(first.datum).getTime() - new Date(second.datum).getTime());
             end_result.pospesek = Math.abs(first.x_pospesek + first.y_pospesek + first.z_pospesek - second.x_pospesek - second.y_pospesek - second.z_pospesek)/timeDiff * 10000;
 
-            // Dodaj racunanje za rotacijo
+            // Rotacija:
             // Vir: https://stackoverflow.com/questions/29255939/calculate-rotation-from-two-coordintes
             // Izracun rotacije za vsako os (x,y,z) -> vzames tisto rotacijo Tiste tocke (kot) katera se je najbolj zatresla
+                // X-Y rotacija
             var degreesX = Math.atan2((first.x_rotacija - second.x_rotacija), (first.y_rotacija - second.y_rotacija)) * 180 / Math.PI;
                 if (degreesX < 0.0) degreesX += 360.0;
+                // X-Z rotacija
             var degreesY = Math.atan2((first.x_rotacija - second.x_rotacija), (first.z_rotacija - second.z_rotacija)) * 180 / Math.PI;
                 if (degreesY < 0.0) degreesY += 360.0;
+                // Y-Z rotacija
             var degreesZ = Math.atan2((first.y_rotacija - second.y_rotacija), (first.z_rotacija - second.z_rotacija)) * 180 / Math.PI;
                 if (degreesZ < 0.0) degreesZ += 360.0;
 
+            // Preverimo če smo kljub prištetju 360° še vseeno pri negativnih vrednostih
+            // To pomeni da ne pridobivamo pravilnih podatkov za rotacijo
+            if(degreesX < 0 || degreesY < 0 || degreesZ < 0)
+            {
+                return res.status(500).json({
+                    message: 'Error when getting rotation ',
+                    error: err
+                });
+            }
             end_result.rotacija = (degreesX+degreesY+degreesZ)/3;
-
-            /*    console.log("DegreesX: ",degreesX);
-                console.log("DegreesY: ",degreesY);
-                console.log("DegreesZ: ",degreesZ);
-                console.log("Rotacija - Koncna: ",end_result.rotacija);*/
 
             if(timeDiff > 10000)
             {
-                // Če je časovna razlika med posnetimi podatki večja od 5 sekund, obdelavo zavržemo(ni natančnih izračunov hitrosti)
+                // Če je časovna razlika med posnetimi podatki večja od 10 sekund, obdelavo zavržemo(ni natančnih izračunov hitrosti)
                 end_result = null;
                 return res.status(500).json({
-                    message: 'Error when creating obdelani_podatki3',
+                    message: 'Error: Too much time beetween recorded data ',
                     error: err
                 });
             }
@@ -79,7 +85,7 @@ module.exports = {
 
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when creating obdelani_podatki4',
+                        message: 'Error when creating obdelani_podatki',
                         error: err
                     });
                 }
