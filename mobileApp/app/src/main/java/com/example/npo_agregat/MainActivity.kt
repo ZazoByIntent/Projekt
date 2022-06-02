@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity(){
         val latitudeString = location.latitude.toString()
         val longitudeString = location.longitude.toString()
         //val actualUrl = "192.168.178.55:3001"
-        //val actualUrl = "192.168.1.27:3000"
         //val actualUrl = "164.8.160.230:3001"
         val actualUrl = "146.212.52.90:3001"
 
@@ -94,7 +93,6 @@ class MainActivity : AppCompatActivity(){
                 else {
                     val responseHeaders: Headers = response.headers
                     for (i in 0 until responseHeaders.size) {
-                        // Log.e("x_pospesek",app.accelerationX.toString())
                         println(responseHeaders.name(i).toString() + ": " + responseHeaders.value(i))
                     }
                     System.out.println(response.body!!.string())
@@ -130,7 +128,9 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun stopSensors() {
-        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        //sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+            sensorManager.unregisterListener(mAcceleratorSensorListener);
+            sensorManager.unregisterListener(mGyroscopeSensorListener);
     }
 
     // Pospeškometer
@@ -147,15 +147,11 @@ class MainActivity : AppCompatActivity(){
             gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0]
             gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1]
             gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2]
-
             // Remove the gravity contribution with the high-pass filter.
-
             linear_acceleration[0] = event.values[0] - gravity[0]
             linear_acceleration[1] = event.values[1] - gravity[1]
             linear_acceleration[2] = event.values[2] - gravity[2]
-            //Log.e("X Speed: ", linear_acceleration[0].toString())
-            //Log.e("Acceleration 1: ", linear_acceleration[1].toString())
-            //Log.e("Acceleration 2: ", linear_acceleration[2].toString())
+            // Prireditev aplikacijskih vrednosti, vrednosti senzorja
             app.accelerationX=linear_acceleration[0]
             app.accelerationY=linear_acceleration[1]
             app.accelerationZ=linear_acceleration[2]
@@ -209,10 +205,6 @@ class MainActivity : AppCompatActivity(){
             // User code should concatenate the delta rotation we computed with the current rotation
             // in order to get the updated rotation.
             // rotationCurrent = rotationCurrent * deltaRotationMatrix;
-
-            /*Log.e("Rotation------x:", deltaRotationVector[0].toString())//,deltaRotationVector[1].toString(),deltaRotationVector[2].toString())
-            Log.e("Rotationy:", deltaRotationVector[1].toString())
-            Log.e("Rotationz:", deltaRotationVector[2].toString())*/
             app.gyroscopeX = deltaRotationVector[0]
             app.gyroscopeY = deltaRotationVector[1]
             app.gyroscopeZ = deltaRotationVector[2]
