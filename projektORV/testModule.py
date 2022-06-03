@@ -99,7 +99,19 @@ def pripraviTestnePodatkePoslano(path):
 
 def lbgIzvedi(dir):
     global algoritmiCount2
-    img = resize(color.rgb2gray(io.imread(dir)), (128, 64))
+    img = cv2.imread(dir)
+
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+    faces = face_cascade.detectMultiScale(img, 1.25, 6)
+
+    for f in faces:
+        x, y, w, h = [v for v in f]
+        img = img[y:y + h, x:x + w]
+
+    img = cv2.resize(img, (128, 64), interpolation=cv2.INTER_AREA)
 
     newImage = lbg.getLBPimage(img)
 

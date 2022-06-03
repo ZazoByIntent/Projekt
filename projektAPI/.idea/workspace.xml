@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="Preverjanje pravilnosti pridobljenih podatkov iz senzorja za rotacijo">
-      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/frontend.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../projektUI/projekt-ui-react/frontend/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algoritmi/obdelavaPodatkov.js" beforeDir="false" afterPath="$PROJECT_DIR$/algoritmi/obdelavaPodatkov.js" afterDir="false" />
-    </list>
+    <list default="true" id="b0e63451-1f27-4cfe-bd45-10e3bd7023a8" name="Changes" comment="Spremenjen čas zajemov, glede na testiranje sistema" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,7 +58,7 @@
       <workItem from="1653778855621" duration="2487000" />
       <workItem from="1653904904816" duration="149000" />
       <workItem from="1654085504905" duration="653000" />
-      <workItem from="1654087771939" duration="2395000" />
+      <workItem from="1654087771939" duration="2720000" />
     </task>
     <task id="LOCAL−00001" summary="Generiranje scrapper modela,Kontrolerja,Routov">
       <created>1652182363893</created>
@@ -91,7 +84,13 @@
       <option name="presentableId" value="LOCAL−00004" />
       <updated>1654090243106</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL−00005" summary="Spremenjen čas zajemov, glede na testiranje sistema">
+      <created>1654091669976</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1654091669976</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +113,7 @@
     <MESSAGE value="Dodano racunanje za rotacijo" />
     <MESSAGE value="Predlog za ocenjevanje kategorije ceste in spremenjen izračun rotacije" />
     <MESSAGE value="Preverjanje pravilnosti pridobljenih podatkov iz senzorja za rotacijo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Preverjanje pravilnosti pridobljenih podatkov iz senzorja za rotacijo" />
+    <MESSAGE value="Spremenjen čas zajemov, glede na testiranje sistema" />
+    <option name="LAST_COMMIT_MESSAGE" value="Spremenjen čas zajemov, glede na testiranje sistema" />
   </component>
 </project>
