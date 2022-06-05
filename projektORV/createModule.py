@@ -14,6 +14,7 @@ import lbg
 import sys
 import json
 import pandas as pd
+import cv2
 
 class imageObject:
     vseZnacilke = []
@@ -40,7 +41,7 @@ def hogIzvedi(dir):
 
     img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
-    faces = face_cascade.detectMultiScale(img, 1.25, 6)
+    faces = face_cascade.detectMultiScale(img, 2.1, 6)
 
     for f in faces:
         x, y, w, h = [v for v in f]
@@ -89,7 +90,8 @@ def hogIzvedi(dir):
                 tempDelitelj = tempDelitelj + tempCellHOGHist[i]
             tempDelitelj = math.sqrt(tempDelitelj)
             for i in range(0,36,1):
-                tempCellHOGHist[i] = tempCellHOGHist[i] / tempDelitelj
+                if tempDelitelj != 0:
+                    tempCellHOGHist[i] = tempCellHOGHist[i] / tempDelitelj
             tempCellHOGHist2.append(tempCellHOGHist)
     
         normalizedHOGHists.append(tempCellHOGHist2)
@@ -114,7 +116,7 @@ def lbgIzvedi(dir):
 
     img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
-    faces = face_cascade.detectMultiScale(img, 1.25, 6)
+    faces = face_cascade.detectMultiScale(img, 2.1, 6)
 
     for f in faces:
         x, y, w, h = [v for v in f]

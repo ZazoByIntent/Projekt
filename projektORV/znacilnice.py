@@ -11,6 +11,7 @@ from skimage import io
 import svmModel
 import knnModel
 import lbg
+import cv2
 
 class imageObject:
     normalizedHist = []
